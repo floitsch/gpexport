@@ -1,0 +1,32 @@
+procedure for compiling and installing the MS3D-exporter (MilkShake3D):
+
+Requirements:
+- gmake
+- and of course Maya
+- Skribe (search on Google), for the doc.
+
+adapt the Makefile.inc to your configuration:
+ - MAYA_LOCATION is hardcoded and might not point to
+   your path.
+ - C++, LD, PREFIX should be fine (but you can change them, if you want)
+
+just run "make" to obtain the "MS3DTranslator.so" and "maya2ms3d" files
+in the src-directory.
+"make install" (as root) to install them.
+
+"maya2ms3d" is an executable that takes a maya-file as input, and
+writes a ms3d-file as output. ATM it takes no other parameters.
+
+"MS3DTranslator.so" is the Maya-plugin. Hence it needs to be loaded
+by it. If you don't want to (or just can't) install it into the main-
+Maya-plugins directory, you can also copy it into the local plugin-
+directory ~/maya/plugins or you can just search for it using "Browse"
+in the Plug-In Manager.
+
+MS3D_opts.mel is the options-script used during the export (so not
+essential, but still handy). Again: if you don't want to install it
+into Maya's main scripts-directory you can put it into one of the local
+scripts directories:
+- ~/maya/scripts
+- ~/maya/5.0/scripts
+Otherwise the Export-Options-dialog won't work.
