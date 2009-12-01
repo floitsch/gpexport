@@ -1,0 +1,26 @@
+GP-Export (General Purpose-Export).
+
+A simple Maya-exporter (for use under Linux). GP-Export's goal is to
+provide a comprehensive base for other exporters. In other words: This
+is the exporter I would have liked to have when I started writing
+my first exporter.
+
+The provided MS3D-export is a small example, showing how to use
+this framework for creating customized exporters. I actually
+never really used the MS3D-exporter myself (I just ran "irrlicht"[1]
+over it, to verify, if the exporter works correctly. But that's it).
+
+The exporter itself is not complete, but is nevertheless quite usable
+for most projects. Its code is now hosted in a public repository[3]. So
+feel free to contribute and improve the exporter.
+
+It is licensed under the (fairly permissive) MIT license (see the
+LICENSE file).
+
+// florian loitsch
+
+[1] http://irrlicht.sourceforge.net/
+[2] maya@florian.loitsch.com
+[3] http://gitorious.org/gpexport
+
+last changed: 2009 11 03

@@ -1,0 +1,98 @@
+<!-- 95% W3C COMPLIANT, 95% CSS FREE, RAW HTML -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Introduction to Maya Exporters</title>
+ <style type="text/css">
+  <!--
+  pre { font-family: monospace }
+  tt { font-family: monospace }
+  code { font-family: monospace }
+  p.flushright { text-align: right }
+  p.flushleft { text-align: left }
+  span.sc { font-variant: small-caps }
+  span.sf { font-family: sans-serif }
+  span.skribetitle { font-family: sans-serif; font-weight: bolder; font-size: x-large; }
+  -->
+ </style>
+</head>
+
+<body class="chapter" bgcolor="#ffffff">
+<table width="100%" class="skribetitle" cellspacing="0" cellpadding="0"><tbody>
+<tr><td align="center" bgcolor="#8381de"><div class="skribetitle"><strong><big><big><big>6. gpExport - a Maya Exporter -- References</big></big></big></strong></div><center>
+</center>
+</td></tr></tbody></table>
+<table cellpadding="3" cellspacing="0" width="100%" class="skribe-margins"><tr>
+<td align="left" valign="top" class="skribe-left-margin" width="20%" bgcolor="#dedeff"><div class="skribe-left-margin">
+<br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>main page</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table width="100%" border="0" style="border-collapse: collapse;" frame="void" rules="none"><tbody>
+<tr><td align="left" valign="top" colspan="1"><strong>top:</strong></td><td align="right" valign="top" colspan="1"><a href="maya-export.html#gpExport---a-Maya-Exporter" class="inbound">gpExport - a Maya Exporter</a></td></tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</center>
+<br/><br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>References</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"></td></tr>
+</tbody></table>
+</center>
+<br/><br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>Chapters</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table cellspacing="1" cellpadding="1" width="100%" class="toc">
+<tbody>
+ <tr><td valign="top" align="left">1</td><td colspan="4" width="100%"><a href="maya-export-1.html#Introduction">Introduction</a></td></tr>
+ <tr><td valign="top" align="left">2</td><td colspan="4" width="100%"><a href="maya-export-2.html#Coding-styles-and-Conventions">Coding styles and Conventions</a></td></tr>
+ <tr><td valign="top" align="left">3</td><td colspan="4" width="100%"><a href="maya-export-3.html#Interfacing-with-Maya">Interfacing with Maya</a></td></tr>
+ <tr><td valign="top" align="left">4</td><td colspan="4" width="100%"><a href="maya-export-4.html#Extraction">Extraction</a></td></tr>
+ <tr><td valign="top" align="left">5</td><td colspan="4" width="100%"><a href="maya-export-5.html#gpExport">gpExport</a></td></tr>
+ <tr><td valign="top" align="left">6</td><td colspan="4" width="100%"><a href="maya-export-6.html#References">References</a></td></tr>
+</tbody>
+</table>
+</td></tr>
+</tbody></table>
+</center>
+</div></td>
+<td align="left" valign="top" class="skribe-body"><div class="skribe-body">
+<p>Update: Robert Bateman wrote a similar document
+  [<a href="maya-export-6.html#maya-factfile" class="inbound">10</a>] like this one. Have a look at it.</p><p>Unfortunately there isn't much documentation out there. Maya's
+  help is more or less equivalent to Java-doc (so only helpful, when one needs
+  information about a specific function or parameter), and the existing
+  books are mostly about using Maya itself, or writing MEL-scripts. The
+  only book about Maya's API I found is &quot;Complete Maya Programming&quot;
+  [<a href="maya-export-6.html#compMayaProg" class="inbound">7</a>], which promised to be helpful. I was quite
+  disappointed though. The book might be nice for writing other kinds of
+  plugins, but did definitely not help in writing the exporter.</p><p>Still: there are helpful resources. GameDev.net [<a href="maya-export-6.html#gamedev" class="inbound">9</a>]
+  provides an example of a complete stand-alone exporter, including animations.
+  It hides some complications one usually encounters, but it's still a great
+  site. Other sites [<a href="maya-export-6.html#ewertb" class="inbound">6</a>], [<a href="maya-export-6.html#greggman" class="inbound">8</a>] contain
+  FAQs for Maya-plugins (<strong>very</strong> helpful).</p><p>Finally there are some open-source exporters (or close too;). MS's
+  exporter found in the DirectX SDK [<a href="maya-export-6.html#directX-sdk" class="inbound">3</a>] is quite complete,
+  but mostly unreadable. ATI's normalmapper [<a href="maya-export-6.html#nmf" class="inbound">1</a>] contains an
+  exporter for static meshes (so not very exhaustive). Quake-Rally's exporter
+  [<a href="maya-export-6.html#quakerally" class="inbound">5</a>] has been recently updated, and I've to admit: I don't
+  know how helpful it is now. And finally neo-engine's exporter
+  [<a href="maya-export-6.html#neo" class="inbound">4</a>] and Ogre3D's exporter [<a href="maya-export-6.html#ogre3d" class="inbound">2</a>] are both very
+  helpful (and in some parts similar).</p><table><tbody>
+<tr><td align="right" valign="top"><a name="nmf">[1]</a></td><td align="left" valign="top"><a href="http://www2.ati.com/developer/NormalMapper_3_2_1.zip" class="http"><strong>http://www2.ati.com/developer/NormalMapper_3_2_1.zip</strong></a>.</td></tr>
+<tr><td align="right" valign="top"><a name="ogre3d">[2]</a></td><td align="left" valign="top"><a href="http://www.ogre3d.org" class="http"><strong>http://www.ogre3d.org</strong></a>.</td></tr>
+<tr><td align="right" valign="top"><a name="directX-sdk">[3]</a></td><td align="left" valign="top"> -- <a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9216652f-51e0-402e-b7b5-feb68d00f298&amp;displaylang=en" class="http"><strong>DirectX SDK</strong></a>.</td></tr>
+<tr><td align="right" valign="top"><a name="neo">[4]</a></td><td align="left" valign="top"> -- <a href="http://neoengine.emedia-solutions-wolf.de/" class="http"><strong>Neo-Engine</strong></a>.</td></tr>
+<tr><td align="right" valign="top"><a name="quakerally">[5]</a></td><td align="left" valign="top"> -- <a href="http://www.quakerally.com/files/" class="http"><strong>Quake-Rally</strong></a>.</td></tr>
+<tr><td align="right" valign="top"><a name="ewertb">[6]</a></td><td align="left" valign="top">Bryan Ewert -- <a href="http://www.ewertb.com/maya/api/" class="http"><strong>Maya API How-To</strong></a>.</td></tr>
+<tr><td align="right" valign="top"><a name="compMayaProg">[7]</a></td><td align="left" valign="top">David A.D. Gould -- <strong>Complete Maya Programming: An Extensive Guide to MEL and C++ API</strong> -- <em>Morgan Kaufmann</em>, 2002.</td></tr>
+<tr><td align="right" valign="top"><a name="greggman">[8]</a></td><td align="left" valign="top">Greggman -- <a href="http://greggman.com/pages/mayastuff.htm" class="http"><strong>http://greggman.com/pages/mayastuff.htm</strong></a>.</td></tr>
+<tr><td align="right" valign="top"><a name="gamedev">[9]</a></td><td align="left" valign="top">Rafael Baptista -- <a href="http://www.gamedev.net/reference/programming/features/mayaexporter/default.asp" class="http"><strong>How to Write a Simple Maya Model Exporter</strong></a>.</td></tr>
+<tr><td align="right" valign="top"><a name="maya-factfile">[10]</a></td><td align="left" valign="top">Robert Bateman -- <a href="http://www.robthebloke.org/research/index.htm" class="http"><strong>The Maya Exporter Factfile</strong></a> -- 2004.</td></tr>
+</tbody></table>
+</div></td>
+</tr></table><div class="skribe-ending">
+<hr> 
+<p class="ending"><font size="-1">
+This <span class="sc">Html</span> page has been produced by 
+<a href="http://www.inria.fr/mimosa/fp/Skribe" class="http">Skribe</a>.
+<br/>
+Last update <em>Sun Sep  5 10:44:35 2004</em>.</font></p></div>
+</body>
+</html>

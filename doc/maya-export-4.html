@@ -1,0 +1,842 @@
+<!-- 95% W3C COMPLIANT, 95% CSS FREE, RAW HTML -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Introduction to Maya Exporters</title>
+ <style type="text/css">
+  <!--
+  pre { font-family: monospace }
+  tt { font-family: monospace }
+  code { font-family: monospace }
+  p.flushright { text-align: right }
+  p.flushleft { text-align: left }
+  span.sc { font-variant: small-caps }
+  span.sf { font-family: sans-serif }
+  span.skribetitle { font-family: sans-serif; font-weight: bolder; font-size: x-large; }
+  -->
+ </style>
+</head>
+
+<body class="chapter" bgcolor="#ffffff">
+<table width="100%" class="skribetitle" cellspacing="0" cellpadding="0"><tbody>
+<tr><td align="center" bgcolor="#8381de"><div class="skribetitle"><strong><big><big><big>4. gpExport - a Maya Exporter -- Extraction</big></big></big></strong></div><center>
+</center>
+</td></tr></tbody></table>
+<table cellpadding="3" cellspacing="0" width="100%" class="skribe-margins"><tr>
+<td align="left" valign="top" class="skribe-left-margin" width="20%" bgcolor="#dedeff"><div class="skribe-left-margin">
+<br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>main page</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table width="100%" border="0" style="border-collapse: collapse;" frame="void" rules="none"><tbody>
+<tr><td align="left" valign="top" colspan="1"><strong>top:</strong></td><td align="right" valign="top" colspan="1"><a href="maya-export.html#gpExport---a-Maya-Exporter" class="inbound">gpExport - a Maya Exporter</a></td></tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</center>
+<br/><br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>Extraction</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table cellspacing="1" cellpadding="1" width="100%" class="toc">
+<tbody>
+ <tr><td valign="top" align="left">4.1</td><td colspan="4" width="100%"><a href="maya-export-4.html#Mesh">Mesh</a></td></tr>
+ <tr><td></td><td valign="top" align="left">4.1.1</td><td colspan="3" width="100%"><a href="maya-export-4.html#Positions">Positions</a></td></tr>
+ <tr><td></td><td valign="top" align="left">4.1.2</td><td colspan="3" width="100%"><a href="maya-export-4.html#Normals">Normals</a></td></tr>
+ <tr><td></td><td valign="top" align="left">4.1.3</td><td colspan="3" width="100%"><a href="maya-export-4.html#UVs">UVs</a></td></tr>
+ <tr><td></td><td valign="top" align="left">4.1.4</td><td colspan="3" width="100%"><a href="maya-export-4.html#Skinning-Data">Skinning-Data</a></td></tr>
+ <tr><td></td><td valign="top" align="left">4.1.5</td><td colspan="3" width="100%"><a href="maya-export-4.html#Triangles-and-Vertices">Triangles and Vertices</a></td></tr>
+ <tr><td></td><td valign="top" align="left">4.1.6</td><td colspan="3" width="100%"><a href="maya-export-4.html#Material">Material</a></td></tr>
+ <tr><td valign="top" align="left">4.2</td><td colspan="4" width="100%"><a href="maya-export-4.html#Animation">Animation</a></td></tr>
+ <tr><td></td><td valign="top" align="left">4.2.1</td><td colspan="3" width="100%"><a href="maya-export-4.html#Bind-Pose">Bind-Pose</a></td></tr>
+ <tr><td></td><td valign="top" align="left">4.2.2</td><td colspan="3" width="100%"><a href="maya-export-4.html#Skeleton">Skeleton</a></td></tr>
+ <tr><td></td><td valign="top" align="left">4.2.3</td><td colspan="3" width="100%"><a href="maya-export-4.html#Tracks">Tracks</a></td></tr>
+</tbody>
+</table>
+</td></tr>
+</tbody></table>
+</center>
+<br/><br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>Chapters</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table cellspacing="1" cellpadding="1" width="100%" class="toc">
+<tbody>
+ <tr><td valign="top" align="left">1</td><td colspan="4" width="100%"><a href="maya-export-1.html#Introduction">Introduction</a></td></tr>
+ <tr><td valign="top" align="left">2</td><td colspan="4" width="100%"><a href="maya-export-2.html#Coding-styles-and-Conventions">Coding styles and Conventions</a></td></tr>
+ <tr><td valign="top" align="left">3</td><td colspan="4" width="100%"><a href="maya-export-3.html#Interfacing-with-Maya">Interfacing with Maya</a></td></tr>
+ <tr><td valign="top" align="left">4</td><td colspan="4" width="100%"><a href="maya-export-4.html#Extraction">Extraction</a></td></tr>
+ <tr><td valign="top" align="left">5</td><td colspan="4" width="100%"><a href="maya-export-5.html#gpExport">gpExport</a></td></tr>
+ <tr><td valign="top" align="left">6</td><td colspan="4" width="100%"><a href="maya-export-6.html#References">References</a></td></tr>
+</tbody>
+</table>
+</td></tr>
+</tbody></table>
+</center>
+</div></td>
+<td align="left" valign="top" class="skribe-body"><div class="skribe-body">
+<p>This is clearly the biggest part of this document, as  Maya is not very
+   coder-friendly what extraction is concerned. And I'm not even going into
+   details...<br/>
+   As a sidenote: Be aware that (AFAIK) any new plugin could break any (more
+   sophisticated) exporter. In other words: one can never really finish an
+   exporter, as there might come a new plugin, that forces an update of the
+   exporter.</p><!-- Mesh -->
+<a name="Mesh"></a>
+<div class="skribesectiontitle"><table width="100%"><tr><td bgcolor="#dedeff"><h3><font color="black">4.1 Mesh</font>
+</h3></td></tr></table>
+</div><div class="section">
+<p>Let's start with the struct that will contain the mesh's information:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>55: </em>    <strong>struct</strong> Mesh
+<em>56: </em>    <font color="red"><strong>{</strong></font>
+<em>57: </em>        std::vector&lt;Material&gt;       materials;
+<em>58: </em>        std::string                 name;
+<em>59: </em>        std::vector&lt;MPoint&gt;         positions;
+<em>60: </em>        std::vector&lt;MFloatVector&gt;   normals;
+<em>61: </em>        UVs                         uvs;
+<em>62: </em>        SkinningData                skinningData;
+<em>63: </em>        std::vector&lt;Vertex&gt;         vertices;
+<em>64: </em>        std::vector&lt;Int3&gt;           indices;
+<em>65: </em>    <font color="red"><strong>}</strong></font>;
+</pre>
+</td></tr>
+</tbody></table></p><p>The obvious fields are <code>name</code>, <code>vertices</code>, <code>indices</code>
+   and <code>materials</code>. Each vertex itself has 3 fields, resp. pointing to
+   an entry in the <code>positions</code>, <code>normals</code> and <code>uvs</code>.
+   The position-index is also used to index into the
+   <code>influences</code>-array, which itself is stored in the <code>skinningData</code>.<br/>
+   Most of these entries will be explained in more detail later on.</p><p>The easiest way of getting all meshes is by iterating over them. The
+      <code>MItDag</code>-class does just that. Here's an example (this time taken
+   from <code>meshExtraction.cpp</code>):</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>395: </em>        <strong>for</strong> (MItDag dagIt(MItDag::kDepthFirst, MFn::kMesh, &amp;status);
+<em>396: </em>             !dagIt.isDone();
+<em>397: </em>             dagIt.next())
+<em>398: </em>        <font color="red"><strong>{</strong></font>
+<em>399: </em>            MDagPath currentMayaMeshPath;
+<em>400: </em>            status = dagIt.getPath(currentMayaMeshPath);
+<em>401: </em>            checkStatus(<font color="red">&quot;couldn't access path (dagIt.getPath)&quot;</font>);
+<em>402: </em>
+<em>403: </em>            <strong>if</strong> (!shouldMeshBeExtracted(currentMayaMeshPath))
+<em>404: </em>            <font color="red"><strong>{</strong></font>
+<em>405: </em>                cout &lt;&lt; <font color="red">&quot;  ignoring &quot;</font>
+<em>406: </em>                     &lt;&lt; currentMayaMeshPath.partialPathName().asChar()
+<em>407: </em>                     &lt;&lt; endl;
+<em>408: </em>                <strong>continue</strong>;
+<em>409: </em>            <font color="red"><strong>}</strong></font>
+<em>410: </em>
+<em>411: </em>            Mesh currentMesh = extractMesh(currentMayaMeshPath);
+<em>412: </em>            extractedMeshes.push_back(currentMesh);
+<em>413: </em>        <font color="red"><strong>}</strong></font>
+<em>414: </em>        <strong>return</strong> extractedMeshes;
+</pre>
+</td></tr>
+</tbody></table></p><p><code>MItDag</code> iterates over all Maya-items. Depending on the
+   parameters it does either a depth-first-, or breadth-first-search. The
+   additional filter-parameter limits the search to the specified type (in this
+   case <code>MFn::kMesh</code>).</p><p>We then just need to use the Mesh-function-set <code>MFnMesh</code> to
+   access each of the found <code>MDagPath</code>s.</p><p>If the mesh is animated one should put the model into its correct
+   frame (or its <a href="maya-export-4.html#Bind-Pose" class="inbound">Bind-Pose</a>).</p><!-- Positions -->
+<a name="Positions"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">4.1.1 Positions</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>The vertex positions is the most basic information one can extract out of
+   Maya. As it is needed by Maya itself<a href="#footnote-footnote1159"><sup><small>1</small></sup></a>, it is quite easy to access the position-information</p><p>Supposing the mesh is in its correct frame the position-extraction is a
+   very short:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>160: </em>        MPointArray mayaPositions;
+<em>161: </em>        status = mayaMesh.getPoints(mayaPositions, MSpace::kWorld);
+</pre>
+</td></tr>
+</tbody></table></p></div>
+<!-- Normals -->
+<a name="Normals"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">4.1.2 Normals</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>Again. Extraction is quite easy. However, we don't know yet, how to join
+   the positions and normals. (<strong>No</strong>: <code>position[i]</code> does not have
+   <code>normal[i]</code> as normal). We'll need <em>Vertex</em>-information to do
+    that.</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>179: </em>        MFloatVectorArray mayaNormals;
+<em>180: </em>        status = mayaMesh.getNormals(mayaNormals);
+</pre>
+</td></tr>
+</tbody></table></p></div>
+<!-- UVs -->
+<a name="UVs"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">4.1.3 UVs</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>Every mesh can have several UV-sets, which are accessed by their
+    name. Furthermore each UV-set is seperated in two arrays: the Us and the
+    Vs.<br/>
+    Compared to the positions and normals it's slightly longer, but still very
+    easy: We get all set-names, and iterate over them, extracting all UVs.</p><p>Seems to be the right moment to introduce the typedef, that will hold
+    the UVs:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>52: </em>    <strong>typedef</strong> std::vector&lt;std::vector&lt;Float2&gt; &gt; UVs;
+</pre>
+</td></tr>
+</tbody></table></p><p>And now the code:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>199: </em>        MStringArray uvSetNames;
+<em>200: </em>        status = mayaMesh.getUVSetNames(uvSetNames);
+<em>201: </em>        checkStatus(<font color="red">&quot;couldn't extract UV-names&quot;</font>);
+<em>202: </em>
+<em>203: </em>        <strong>for</strong> (uint32 i = 0; i &lt; uvSetNames.length(); ++i)
+<em>204: </em>        <font color="red"><strong>{</strong></font>
+<em>205: </em>            cout &lt;&lt; <font color="red">&quot;   uv-name: &quot;</font> &lt;&lt; uvSetNames[i] &lt;&lt; endl;
+<em>206: </em>            
+<em>207: </em>            MFloatArray us;
+<em>208: </em>            MFloatArray vs;
+<em>209: </em>            std::vector&lt;Float2&gt; currentUVSet;
+<em>210: </em>        
+<em>211: </em>            status = mayaMesh.getUVs(us, vs, &amp;uvSetNames[i]);
+<em>212: </em>            result.reserve(us.length());
+<em>213: </em>            <strong>for</strong> (uint32 i = 0; i &lt; us.length(); ++i)
+<em>214: </em>            <font color="red"><strong>{</strong></font>
+<em>215: </em>                Float2 currentUV;
+<em>216: </em>                currentUV.u = us[i];
+<em>217: </em>                currentUV.v = vs[i];
+<em>218: </em>                currentUVSet.push_back(currentUV);
+<em>219: </em>            <font color="red"><strong>}</strong></font>
+<em>220: </em>            result.push_back(currentUVSet);
+<em>221: </em>        <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p></div>
+<!-- Skinning-Data -->
+<a name="Skinning-Data"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">4.1.4 Skinning-Data</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>In order to describe the skinning-extraction, I need to indroduce the
+   structs, that will hold the data.
+   (<code>mesh.hpp</code>):</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>22: </em>    <font color="#ffa600"><em>// the boneIndex references a joint in SkinningData::jointNames</em></font>
+<em>23: </em>    <strong>struct</strong> Influence
+<em>24: </em>    <font color="red"><strong>{</strong></font>
+<em>25: </em>        uint32  boneIndex; <font color="#ffa600"><em>// points to a name in &quot;SkinningData.jointNames&quot;</em></font>
+<em>26: </em>        float   weight;
+<em>27: </em>    <font color="red"><strong>}</strong></font>;
+<em>28: </em>
+<em>29: </em>    <strong>typedef</strong> std::vector&lt;Influence&gt; Influences;
+<em>30: </em>
+<em>31: </em>
+<em>32: </em>    <font color="#ffa600"><em>// for every vertex with positionIndex i the weights are in influences[i].</em></font>
+<em>33: </em>    <font color="#ffa600"><em>// if there aren't any weights for the mesh, the influences-vector is of</em></font>
+<em>34: </em>    <font color="#ffa600"><em>// size 0. (so don't index blindly into the vector).</em></font>
+<em>35: </em>    <font color="#ffa600"><em>//</em></font>
+<em>36: </em>    <font color="#ffa600"><em>// the influences index into the jointNames-vector, which might be</em></font>
+<em>37: </em>    <font color="#ffa600"><em>// different for every mesh.</em></font>
+<em>38: </em>    <strong>struct</strong> SkinningData
+<em>39: </em>    <font color="red"><strong>{</strong></font>
+<em>40: </em>        std::vector&lt;std::string&gt;    jointNames;
+<em>41: </em>        std::vector&lt;Influences&gt;     influences;
+<em>42: </em>    <font color="red"><strong>}</strong></font>;
+</pre>
+</td></tr>
+</tbody></table></p><p>The only not obvious field is the <code>jointNames</code>-vector. We need
+   this vector, to achieve the mapping between animation-tracks and the
+   influences: The name is used as identifier for each joint. Rather than
+   putting the name into every influence, we just index into the
+   <code>jointNames</code>-vector.</p><p>Once something touches animation, it starts getting difficult. And
+   that's true for the skinning-data too. There's no easy way to get to the
+   skin-cluster associated with the mesh. One could search the input-plugs and
+   find the skin-cluster from there on. That's the way proposed by greggman on
+   his <a href="http://www.greggman.com/pages/mayastuff.htm#skin" class="http">site</a>.</p><p><code>gpExport</code> (as well as for instance <em>MS's X-Exporter</em>) takes an
+   easier approach (which is less efficient): For every mesh we iterator over
+   all dependency-nodes, filtering for skin-clusters. For every found
+   skin-cluster, we look at all output-connections. If the current mesh is an
+   output-shape of the skin-cluster, we found our skin-cluster.:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>75: </em>        <strong>for</strong> (MItDependencyNodes depNodeIt(MFn::kSkinClusterFilter);
+<em>76: </em>             !depNodeIt.isDone();
+<em>77: </em>             depNodeIt.next())
+<em>78: </em>        <font color="red"><strong>{</strong></font>
+<em>79: </em>            MObject depNodeObject = depNodeIt.item();
+<em>80: </em>            MFnSkinCluster mayaSkinCluster(depNodeObject, &amp;status);
+<em>81: </em>            checkStatus(<font color="red">&quot;couldn't acces skinCluster&quot;</font>);
+<em>82: </em>
+<em>83: </em>            <font color="#ffa600"><em>// normally we should cycle through all outputConnections,</em></font>
+<em>84: </em>            <font color="#ffa600"><em>// and look, if it's our mesh.</em></font>
+<em>85: </em>            <font color="#ffa600"><em>// the following line is just shorter</em></font>
+<em>86: </em>            uint32 shapeIndex =
+<em>87: </em>                mayaSkinCluster.indexForOutputShape(mayaOutputMeshPath.node(),
+<em>88: </em>                                                    &amp;status);
+<em>89: </em>            <strong>if</strong> (!status)
+<em>90: </em>                <strong>continue</strong>; <font color="#ffa600"><em>// our mesh is not an output for this skincluster</em></font>
+</pre>
+</td></tr>
+</tbody></table></p><p>If a skin-cluster was found, we get all influence-object (should be
+   joints), and store them in the <code>jointNames</code>-array.</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>100: </em>            MDagPathArray influenceObjectPaths;
+<em>101: </em>            mayaSkinCluster.influenceObjects(influenceObjectPaths, &amp;status);
+<em>102: </em>            checkStatus(<font color="red">&quot;couldn't get influenceObjects&quot;</font>);
+<em>103: </em>            <strong>for</strong> (uint32 i = 0; i &lt; influenceObjectPaths.length(); ++i)
+<em>104: </em>            <font color="red"><strong>{</strong></font>
+<em>105: </em>                skinningData.jointNames.push_back(
+<em>106: </em>                    influenceObjectPaths[i].partialPathName().asChar());
+<em>107: </em>            <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p><p>Then we get the influences:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>111: </em>            MObject mayaInputObject =
+<em>112: </em>                mayaSkinCluster.inputShapeAtIndex(shapeIndex, &amp;status);
+<em>113: </em>            <font color="#ffa600"><em>// numVertices() should be the same for input and output shape.</em></font>
+<em>114: </em>            skinningData.influences.resize(mayaOutputMesh.numVertices());
+<em>115: </em>
+<em>116: </em>            <font color="#ffa600"><em>// iterate over all points (= components in Maya) and get the</em></font>
+<em>117: </em>            <font color="#ffa600"><em>// influences (= [boneIndex, weight])</em></font>
+<em>118: </em>            uint32 pointCounter = 0;
+<em>119: </em>            <strong>for</strong> (MItGeometry geometryIt(mayaInputObject);
+<em>120: </em>                 !geometryIt.isDone();
+<em>121: </em>                 geometryIt.next(), ++pointCounter)
+<em>122: </em>            <font color="red"><strong>{</strong></font>
+<em>123: </em>                MObject mayaComponent = geometryIt.component();
+<em>124: </em>                MFloatArray mayaWeightArray;
+<em>125: </em>                uint32 numInfluences; <font color="#ffa600"><em>// is going to be discarded</em></font>
+<em>126: </em>
+<em>127: </em>                mayaSkinCluster.getWeights(mayaOutputMeshPath,
+<em>128: </em>                                           mayaComponent,
+<em>129: </em>                                           mayaWeightArray,
+<em>130: </em>                                           numInfluences);
+</pre>
+</td></tr>
+</tbody></table></p><p>The important part is the call to <code>getWeights</code> of the
+   skin-cluster. We iterate over all points (<code>geometryIt</code>) and get the
+   skinweights with this function (one by one).<br/>
+   We then finally convert the retrieved weights into a convenient format:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>133: </em>                <strong>for</strong> (uint32 j = 0; j &lt; mayaWeightArray.length(); ++j)
+<em>134: </em>                <font color="red"><strong>{</strong></font>
+<em>135: </em>                    <font color="#ffa600"><em>// I know: we are working with floats, but Maya has a</em></font>
+<em>136: </em>                    <font color="#ffa600"><em>// function to eliminate weights, that are too small</em></font>
+<em>137: </em>                    <strong>if</strong> (mayaWeightArray[j] != 0)
+<em>138: </em>                    <font color="red"><strong>{</strong></font>
+<em>139: </em>                        Influence influence;
+<em>140: </em>                        influence.boneIndex = j;
+<em>141: </em>                        influence.weight = mayaWeightArray[j];
+<em>142: </em>                        skinningData.influences[pointCounter]
+<em>143: </em>                            .push_back(influence);
+<em>144: </em>                    <font color="red"><strong>}</strong></font>
+<em>145: </em>                <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p></div>
+<!-- Triangles and Vertices -->
+<a name="Triangles-and-Vertices"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">4.1.5 Triangles and Vertices</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>Triangles and vertices are not immediate to obtain, but the extraction
+   is straightforward. One has to pass by Maya's faces to get them. One correct
+   way to do that: using <code>MItMeshPolygon</code> as in the following example:
+      <p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>360: </em>        <strong>for</strong> (MItMeshPolygon polyIt(mayaMeshPath);
+<em>361: </em>             !polyIt.isDone();
+<em>362: </em>             polyIt.next())
+<em>363: </em>        <font color="red"><strong>{</strong></font>
+<em>364: </em>            std::vector&lt;Int3&gt; polyTriangles =
+<em>365: </em>                extractPolyTriangles(polyIt, vertexOffset);
+</pre>
+</td></tr>
+</tbody></table></p></p><!-- Vertices -->
+<a name="Vertices"></a>
+<div class="skribesubsubsectiontitle"><h4><font color="#8381de">4.1.5.1 Vertices</font>
+</h4></div><div class="subsubsection">
+<p>The positions, normals, etc. aren't yet useful, as we can't relate
+    them. That's what the vertices are for. As already written, Maya stores its
+    information in faces, and we need to pass by them. As we don't need the
+    seperation into faces, we'll just merge all faces of a mesh.</p><p>The notion of &quot;vertex&quot; itself doesn't exist in Maya. Instead there are
+    functions, to access all vertex-entries independantly (which makes sense,
+    as not every vertex contains always the same entries). We are actually
+    simplifying our life, by using always the same vertex-struct.</p><p>Here's finally the vertex-extraction method:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>282: </em>        unsigned int nbVertices = polyIt.polygonVertexCount();
+<em>283: </em>        <strong>for</strong> (unsigned int i = 0; i &lt; nbVertices; ++i)
+<em>284: </em>        <font color="red"><strong>{</strong></font>
+<em>285: </em>            Vertex currentVertex;
+<em>286: </em>            <strong>if</strong> (doExtractPositions() || doExtractWeights())
+<em>287: </em>                currentVertex.positionIndex = polyIt.vertexIndex(i);
+<em>288: </em>
+<em>289: </em>            <strong>if</strong> (doExtractNormals())
+<em>290: </em>                currentVertex.normalIndex = polyIt.normalIndex(i);
+<em>291: </em>
+<em>292: </em>            <strong>if</strong> (doExtractUVs())
+<em>293: </em>            <font color="red"><strong>{</strong></font>
+<em>294: </em>                MStringArray uvSetNames;
+<em>295: </em>                mayaMesh.getUVSetNames(uvSetNames);
+<em>296: </em>                <font color="#ffa600"><em>// only the first set, for now.</em></font>
+<em>297: </em>                polyIt.getUVIndex(i, currentVertex.uvIndex, &amp;uvSetNames[0]);
+<em>298: </em>            <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p></div>
+<!-- Triangles -->
+<a name="Triangles"></a>
+<div class="skribesubsubsectiontitle"><h4><font color="#8381de">4.1.5.2 Triangles</font>
+</h4></div><div class="subsubsection">
+<p>Maya only triangulates individual faces (=polygons), but not complete
+    meshes. What's slightly more annoying: Maya's triangulation returns
+    indices for the positions. We want the indices to index into the
+    face-relative vertices. After all, if we can't get from the triangles to
+    the vertices, the vertices are pretty useless.</p><p>The extraction-method isn't very complicated (have a look at the code
+    for even more comments):</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>238: </em>        MPointArray nonTweakedPositions; <font color="#ffa600"><em>// is going to be discarded here</em></font>
+<em>239: </em>        MIntArray mayaIndices; <font color="#ffa600"><em>// that's what we are looking for</em></font>
+<em>240: </em>        polyIt.getTriangles(nonTweakedPositions, mayaIndices);
+<em>241: </em>        MIntArray polyIndices;
+<em>242: </em>        polyIt.getVertices(polyIndices);
+<em>243: </em>        result = convertObjectToPoly(mayaIndices, polyIndices);
+<em>244: </em>        <font color="#ffa600"><em>// finally add the offset to each index</em></font>
+<em>245: </em>        <strong>for</strong> (unsigned int i = 0; i &lt; result.size(); ++i)
+<em>246: </em>        <font color="red"><strong>{</strong></font>
+<em>247: </em>            Int3&amp; currentTriangle = result[i];
+<em>248: </em>            currentTriangle.i1 += vertexOffset;
+<em>249: </em>            currentTriangle.i2 += vertexOffset;
+<em>250: </em>            currentTriangle.i3 += vertexOffset;
+<em>251: </em>        <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p><p>Note, that we are merging all faces (we won't be able to tell from what
+    face a triangle came frome).</p><p>And now the conversion-method:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>37: </em>        uint32 i = 0;
+<em>38: </em>        <strong>while</strong> (i &lt; objectIndices.length())
+<em>39: </em>        <font color="red"><strong>{</strong></font>
+<em>40: </em>            Int3 currentTriangle;
+<em>41: </em>            <strong>for</strong> (uint32 j = 0; j &lt; 3; ++j)
+<em>42: </em>            <font color="red"><strong>{</strong></font>
+<em>43: </em>                int32 indexTarget = objectIndices[i];
+<em>44: </em>                <font color="#ffa600"><em>// search for the corresponding polyIndex</em></font>
+<em>45: </em>                uint32 k;
+<em>46: </em>                <strong>for</strong> (k = 0; k &lt; polyIndices.length(); ++k)
+<em>47: </em>                <font color="red"><strong>{</strong></font>
+<em>48: </em>                    <strong>if</strong> (polyIndices[k] == indexTarget)
+<em>49: </em>                        <strong>break</strong>;
+<em>50: </em>                <font color="red"><strong>}</strong></font>
+<em>51: </em>                <strong>if</strong> (k == polyIndices.length()) error(<font color="red">&quot;couldn't find poly-Index&quot;</font>);
+<em>52: </em>                currentTriangle.i[j] = k;
+<em>53: </em>
+<em>54: </em>                i++;
+<em>55: </em>            <font color="red"><strong>}</strong></font>
+<em>56: </em>            triangles.push_back(currentTriangle);
+<em>57: </em>        <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p><p>Basically we take every positionIndex (<code>objectIndices[i]</code>), and
+    search the corresponding vertex, that has the same positionIndex. This
+    should give a unique result (as positions are only used once per face).</p></div>
+</div>
+<!-- Material -->
+<a name="Material"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">4.1.6 Material</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>Although materials are shared between different meshes, <code>gpExport</code>
+    currently creates new materials for every mesh (in other words: the
+    materials are duplicated). However, it should be easy to join them again
+    (if needed).</p><p>Materials are stored in shaders and the one uses <code>getConnectedShaders</code> on a mesh to get them (<code>materialExtraction.cpp</code>):</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>182: </em>        mayaMesh.getConnectedShaders(instanceNumber,
+<em>183: </em>                                     shaderSets,
+<em>184: </em>                                     shaderVertexIndices);
+</pre>
+</td></tr>
+</tbody></table></p><p>Then we iterate over all shaders, and search for <code>surfaceShader</code>-plugs, as they are the nodes containing materials:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>122: </em>        MFnDependencyNode depNode(shaderSet);
+<em>123: </em>        MPlug shaderPlug = depNode.findPlug(<font color="red">&quot;surfaceShader&quot;</font>);
+<em>124: </em>        
+<em>125: </em>        <strong>if</strong> (shaderPlug.isNull()) <strong>return</strong> materials; <font color="#ffa600"><em>// empty vector</em></font>
+<em>126: </em>        
+<em>127: </em>        MPlugArray shaderPlugSources;
+<em>128: </em>        shaderPlug.connectedTo(shaderPlugSources, true, false);
+</pre>
+</td></tr>
+</tbody></table></p><p>For each connected shader, we get the shader-node, and convert the
+    contained material-information into a more convenient format (I never
+    really tested the conversion, but all other exporters I've seen do it this
+    way.) Furthermore we only extract <code>phong</code>-, <code>blinn</code>- and
+    <code>lambert</code>-shaders:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>134: </em>            MPlug currentShaderPlugSource = shaderPlugSources[i];
+<em>135: </em>            MObject shaderNode = currentShaderPlugSource.node();
+<em>136: </em>            <strong>if</strong> (shaderNode.hasFn(MFn::kPhong))
+<em>137: </em>                fillMaterial&lt;MFnPhongShader&gt;(&amp;currentMaterial,
+<em>138: </em>                                             shaderNode,
+<em>139: </em>                                             <font color="red">&quot;phong&quot;</font>);
+<em>140: </em>            <strong>else</strong> <strong>if</strong> (shaderNode.hasFn(MFn::kBlinn))
+<em>141: </em>                fillMaterial&lt;MFnBlinnShader&gt;(&amp;currentMaterial,
+<em>142: </em>                                             shaderNode,
+<em>143: </em>                                             <font color="red">&quot;blinn&quot;</font>);
+<em>144: </em>            <strong>else</strong> <strong>if</strong> (shaderNode.hasFn(MFn::kLambert))
+<em>145: </em>                fillMaterial&lt;MFnLambertShader&gt;(&amp;currentMaterial,
+<em>146: </em>                                               shaderNode,
+<em>147: </em>                                               <font color="red">&quot;lambert&quot;</font>);
+</pre>
+</td></tr>
+</tbody></table></p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em> 96: </em>    MaterialExtractor::fillMaterial(Material* pMaterial,
+<em> 97: </em>                                    const MObject&amp; shaderNode,
+<em> 98: </em>                                    const std::string&amp; shadingType) const
+<em> 99: </em>    <font color="red"><strong>{</strong></font>
+<em>100: </em>        T shader(shaderNode);
+<em>101: </em>        std::string shadingMode;
+<em>102: </em>        <strong>if</strong> (shadingType == <font color="red">&quot;phong&quot;</font>)
+<em>103: </em>            pMaterial-&gt;shadingMode = <font color="red">&quot;phong&quot;</font>;
+<em>104: </em>        <strong>else</strong> <font color="#ffa600"><em>// blinn and lambert</em></font>
+<em>105: </em>            pMaterial-&gt;shadingMode = <font color="red">&quot;gouraud&quot;</font>;
+<em>106: </em>            
+<em>107: </em>        pMaterial-&gt;ambient = shader.ambientColor();
+<em>108: </em>        pMaterial-&gt;diffuse = shader.diffuseCoeff() * shader.color();
+<em>109: </em>        pMaterial-&gt;selfIllumination = shader.incandescence();
+<em>110: </em>
+<em>111: </em>        pMaterial-&gt;shininess = getShininess(shader);
+</pre>
+</td></tr>
+</tbody></table></p><p><code>getShininess</code> is parametrized by the type, and returns an
+    appropriate value for each shader-type.</p><p>Finally <code>gpExport</code> extracts the textures:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>37: </em>        MFnDependencyNode shaderDepNode(shaderPlugSource.node());
+<em>38: </em>        
+<em>39: </em>        <strong>for</strong> (MItDependencyGraph shaderGraphIt(shaderPlugSource,
+<em>40: </em>                                              MFn::kFileTexture,
+<em>41: </em>                                              MItDependencyGraph::kUpstream);
+<em>42: </em>             !shaderGraphIt.isDone();
+<em>43: </em>             shaderGraphIt.next())
+<em>44: </em>        <font color="red"><strong>{</strong></font>
+<em>45: </em>            MObject shaderTextureNode = shaderGraphIt.thisNode();
+<em>46: </em>            MFnDependencyNode mayaTexture(shaderTextureNode);
+<em>47: </em>            
+<em>48: </em>            MString textureFile;
+<em>49: </em>            mayaTexture.findPlug(<font color="red">&quot;fileTextureName&quot;</font>).getValue(textureFile);
+</pre>
+</td></tr>
+</tbody></table></p></div>
+</div><br>
+<!-- Animation -->
+<a name="Animation"></a>
+<div class="skribesectiontitle"><table width="100%"><tr><td bgcolor="#dedeff"><h3><font color="black">4.2 Animation</font>
+</h3></td></tr></table>
+</div><div class="section">
+<p>Animation is way more complicated than static information. One
+    difficulty lies in the fact, that people need different
+    animation-data. Some need the positions at every frame, some want
+    skeleton-transformations at each frame, some want them just at
+    key-frames, etc.</p><p><code>gpExport</code> only extracts skeleton-keyframes, but the used
+    methods should be applicable to other extractions. Also: the
+    <code>gpExport</code>'s extraction is not complete. I already found
+    examples, where nothing got extracted... (feel free to submit
+    patches;)</p><p>At Wootsoft we used the same animation for different skeletons,
+    and the extraction is therefore completely split up (which is not
+    really unreasonable anyways).</p><!-- Bind-Pose -->
+<a name="Bind-Pose"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">4.2.1 Bind-Pose</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>In order to export the mesh and skeleton correctly, the model
+    needs to be put into its bind-pose first. Ideally the exporter
+    should undo this modification:).</p><p>This should have been easy, but was one of the most difficult
+    tasks of the exporter: there's no easy way to get the bind-pose
+    matrix.</p><p>First thing to do, to go into bind-pose: turn the inverse
+    kinematic off <code>bindPoseTool.cpp</code>:
+     <p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>132: </em>        MIkSystem::setGlobalSnap(false);
+<em>133: </em>        MIkSystem::setGlobalSolve(false);
+</pre>
+</td></tr>
+</tbody></table></p></p><p>We then run over all joints, find the bind-pose matrix, and
+    put the joint into its initial transformation. If a joint is
+    instanced, only the first instance is put back into bind-pose
+    (which automatically puts back the others too). Also, we need
+    to remember the current transformation, as we need to go back
+    later.</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>152: </em>            MTransformationMatrix currentTransform = joint.transformation(&amp;status);
+<em>153: </em>
+<em>154: </em>            joint2transform.first = jointPath.node();
+<em>155: </em>            joint2transform.second = currentTransform;
+<em>156: </em>            undoInfo.savedTransforms.push_back(joint2transform);
+<em>157: </em>
+<em>158: </em>            MMatrix bindPoseMatrix = getBindPoseMatrix(joint);
+</pre>
+</td></tr>
+</tbody></table></p><p>Now the difficult task: getting the bind-pose matrix. There
+	are several methods of doing it, and <code>gpExport</code> unfortunately
+	uses one, that is not completly correct. For the correct way
+	look at greggman's <a href="http://www.greggman.com/pages/mayastuff.htm" class="http">site</a> (again).</p><p>We first find the <code>bindPose</code>-plug and all connected
+	nodes:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>61: </em>        MPlug tempBindPosePlug = joint.findPlug(<font color="red">&quot;bindPose&quot;</font>);
+<em>62: </em>
+<em>63: </em>        MPlugArray mapConnections;
+<em>64: </em>        tempBindPosePlug.connectedTo(mapConnections, false, true);
+</pre>
+</td></tr>
+</tbody></table></p><p>we then get the first found connection, search for the
+	<code>xformMatrix</code>-attribute, and finally extract it:
+	<p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>78: </em>        MPlug bindPosePlug = mapConnections[0];
+<em>79: </em>
+<em>80: </em>        <font color="#ffa600"><em>// this node should be a &quot;dagPose&quot;-node (in case you want to look it</em></font>
+<em>81: </em>        <font color="#ffa600"><em>// up in the help)</em></font>
+<em>82: </em>        MFnDependencyNode bindPoseNode(bindPosePlug.node());
+<em>83: </em>
+<em>84: </em>        <font color="#ffa600"><em>// and as such, has the &quot;xformMatrix&quot;-attribute.</em></font>
+<em>85: </em>        MObject xformMatrixAttribute = bindPoseNode.attribute(<font color="red">&quot;xformMatrix&quot;</font>);
+<em>86: </em>
+<em>87: </em>        MPlug localTransformPlug(bindPosePlug.node(), xformMatrixAttribute);
+<em>88: </em>        <font color="#ffa600"><em>// xformMatrix is an array. to get our localmatrix we need to select</em></font>
+<em>89: </em>        <font color="#ffa600"><em>// the same index, as our bindPosePlug (logicalIndex()).</em></font>
+<em>90: </em>        localTransformPlug.selectAncestorLogicalIndex(
+<em>91: </em>                            bindPosePlug.logicalIndex(), xformMatrixAttribute);
+<em>92: </em>
+<em>93: </em>        MObject localMatrixObject;
+<em>94: </em>        localTransformPlug.getValue(localMatrixObject);
+</pre>
+</td></tr>
+</tbody></table></p></p><p>I don't know if this is really necessary, but it can't hurt:
+	syncing the meshes:
+	<p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>105: </em>        <strong>for</strong> (MItDag dagIt(MItDag::kDepthFirst, MFn::kMesh, &amp;status);
+<em>106: </em>             !dagIt.isDone();
+<em>107: </em>             dagIt.next())
+<em>108: </em>        <font color="red"><strong>{</strong></font>
+<em>109: </em>            cout &lt;&lt; <font color="red">&quot;.&quot;</font>;
+<em>110: </em>            MDagPath meshPath;
+<em>111: </em>            dagIt.getPath(meshPath);
+<em>112: </em>            MFnMesh mesh(meshPath.node());
+<em>113: </em>            mesh.syncObject();
+<em>114: </em>        <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p></p><p>Undoing the information is way easier:
+	<p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>178: </em>        <strong>for</strong> (BindPoseUndoInformation::JointMatrixVector::const_iterator
+<em>179: </em>               it = undoInfo.savedTransforms.begin();
+<em>180: </em>            it != undoInfo.savedTransforms.end();
+<em>181: </em>            ++it)
+<em>182: </em>        <font color="red"><strong>{</strong></font>
+<em>183: </em>            cout &lt;&lt; <font color="red">&quot;.&quot;</font>;
+<em>184: </em>            status = MFnIkJoint(it-&gt;first).set(it-&gt;second);
+<em>185: </em>            <strong>if</strong> (!status)
+<em>186: </em>                cout &lt;&lt; <font color="red">&quot;prob in undoInfo&quot;</font> &lt;&lt; endl;
+<em>187: </em>        <font color="red"><strong>}</strong></font>
+<em>188: </em>
+<em>189: </em>        MIkSystem::setGlobalSnap(undoInfo.ikSnap);
+<em>190: </em>        MIkSystem::setGlobalSolve(undoInfo.ikSolve);
+<em>191: </em>
+<em>192: </em>        cout &lt;&lt; endl;
+<em>193: </em>
+<em>194: </em>        syncMeshes();
+</pre>
+</td></tr>
+</tbody></table></p></p><p>As <code>gpExport</code> already does all this for you, I
+	advise using its implementation</p></div>
+<!-- Skeleton -->
+<a name="Skeleton"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">4.2.2 Skeleton</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>Skeletons are essentially hierarchical transformations:
+    a transformation-matrix and its children. In addition we store
+    the joint-name, as we'll use it as identifier. Eventhough not
+    necessary we keep the world-transfrom too (<code>skeleton.hpp</code>):
+    <p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>18: </em>    <strong>struct</strong> JointNode
+<em>19: </em>    <font color="red"><strong>{</strong></font>
+<em>20: </em>        std::string             name;
+<em>21: </em>        std::vector&lt;JointNode&gt;  children;
+<em>22: </em>        MMatrix                 localTransform;
+<em>23: </em>
+<em>24: </em>        <font color="#ffa600"><em>// is not necessary (as we have the hierarchy,</em></font>
+<em>25: </em>        <font color="#ffa600"><em>// and the localTransform).</em></font>
+<em>26: </em>        <font color="#ffa600"><em>// only included to avoid recalculations.</em></font>
+<em>27: </em>        MMatrix                 worldTransform;
+<em>28: </em>    <font color="red"><strong>}</strong></font>;
+<em>29: </em>
+<em>30: </em>    <strong>struct</strong> Skeleton
+<em>31: </em>    <font color="red"><strong>{</strong></font>
+<em>32: </em>        std::vector&lt;JointNode&gt; rootNodes;
+<em>33: </em>    <font color="red"><strong>}</strong></font>;
+</pre>
+</td></tr>
+</tbody></table></p></p><p>All sequent code-snippets of this subsection are taken from
+    <code>skeletonExtraction.cpp</code>.</p><p>The extraction itself is not that difficult: for each root-joint, we
+    recursively extract the hierarchy.</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>67: </em>        <strong>for</strong> (MItDag dagIt(MItDag::kDepthFirst, MFn::kJoint, &amp;status);
+<em>68: </em>             !dagIt.isDone();
+<em>69: </em>             dagIt.next())
+<em>70: </em>        <font color="red"><strong>{</strong></font>
+<em>71: </em>            MDagPath jointPath;
+<em>72: </em>            dagIt.getPath(jointPath);
+<em>73: </em>            <strong>if</strong> (shouldJointBeExtracted(jointPath))
+<em>74: </em>                skeleton.rootNodes.push_back(
+<em>75: </em>                    extractSkeletonHierarchy(jointPath, 2));
+<em>76: </em>            <font color="#ffa600"><em>// children have already been treated by extractSkeletonHierarchy,</em></font>
+<em>77: </em>            <font color="#ffa600"><em>// or are intentionally ignored</em></font>
+<em>78: </em>            dagIt.prune();
+</pre>
+</td></tr>
+</tbody></table></p><p>The <code>extractSkeletonHierarchy</code>-method first gets the
+    joint-name. Then the local transformation, and the world transform.
+    Finally it iterates over its children:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>28: </em>        currentJointNode.name = jointPath.partialPathName().asChar();
+<em>29: </em>
+<em>30: </em>        MFnTransform transform(jointPath);
+<em>31: </em>        currentJointNode.localTransform = transform.transformation().asMatrix();
+<em>32: </em>        currentJointNode.worldTransform = jointPath.inclusiveMatrix();
+<em>33: </em>        <strong>for</strong> (uint32 i = 0; i &lt; jointPath.childCount(); ++i)
+<em>34: </em>        <font color="red"><strong>{</strong></font>
+<em>35: </em>            <strong>if</strong> (jointPath.child(i).hasFn(MFn::kJoint))
+<em>36: </em>            <font color="red"><strong>{</strong></font>
+<em>37: </em>                MDagPath childPath;
+<em>38: </em>                childPath.set(jointPath);
+<em>39: </em>                childPath.push(jointPath.child(i));
+<em>40: </em>                <strong>if</strong> (!shouldJointBeExtracted(childPath))
+<em>41: </em>                    <strong>continue</strong>; <font color="#ffa600"><em>// prune tree</em></font>
+<em>42: </em>                JointNode childJointNode = extractSkeletonHierarchy(childPath,
+<em>43: </em>                                                                    depth + 1);
+<em>44: </em>                currentJointNode.children.push_back(childJointNode);
+</pre>
+</td></tr>
+</tbody></table></p></div>
+<!-- Tracks -->
+<a name="Tracks"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">4.2.3 Tracks</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p><code>gpExport</code> gets the tracks (the keyframes and their transformations)
+	for all joints. The struct holding this information has 3 additional
+	fields: <code>fps</code>, <code>start</code> end <code>end</code>. <code>fps</code>
+	obviously holds the frames per second. This also means, that some
+	Maya-fps-settings can't be correctly extracted (for instance, all fps
+	smaller the one). <code>start</code> and <code>end</code> are redundant
+	fields, as the beginning and end of the animation can be found in the
+	tracks, but often simplifies the output. (<code>animation.hpp</code>)</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>22: </em>    <strong>struct</strong> KeyFrame
+<em>23: </em>    <font color="red"><strong>{</strong></font>
+<em>24: </em>        MTime   time;
+<em>25: </em>        MMatrix transformation;
+<em>26: </em>    <font color="red"><strong>}</strong></font>;
+<em>27: </em>
+<em>28: </em>    <strong>typedef</strong> std::vector&lt;KeyFrame&gt; Track;
+<em>29: </em>    <strong>typedef</strong> std::map&lt;std::string, Track&gt; StringTrackMap;
+<em>30: </em>    
+<em>31: </em>    <strong>struct</strong> Animation
+<em>32: </em>    <font color="red"><strong>{</strong></font>
+<em>33: </em>        uint32              fps;
+<em>34: </em>        MTime               start; <font color="#ffa600"><em>// first keyframe. redundant information</em></font>
+<em>35: </em>                                   <font color="#ffa600"><em>// (could be extracted out of the tracks)</em></font>
+<em>36: </em>        
+<em>37: </em>        MTime               end;   <font color="#ffa600"><em>// last keyframe. redundant information</em></font>
+<em>38: </em>                                   <font color="#ffa600"><em>// (could be extracted out of the tracks)</em></font>
+<em>39: </em>        
+<em>40: </em>        StringTrackMap      tracks;
+<em>41: </em>    <font color="red"><strong>}</strong></font>;
+</pre>
+</td></tr>
+</tbody></table></p><p>The extraction is done in three steps:
+	 <ul class="itemize"><li>get all animated joints.</li>
+<li>get the key-times for all joints.</li>
+<li>and finally get the transformations.</li>
+</ul></p><p>The animated joints are quite easy to obtain:
+	     <p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>60: </em>        <strong>for</strong> (MItDag dagIt(MItDag::kDepthFirst, MFn::kJoint, &amp;status);
+<em>61: </em>             !dagIt.isDone();
+<em>62: </em>             dagIt.next())
+<em>63: </em>        <font color="red"><strong>{</strong></font>
+<em>64: </em>            MDagPath jointPath;
+<em>65: </em>            dagIt.getPath(jointPath);
+<em>66: </em>
+<em>67: </em>            <strong>if</strong> (!MAnimUtil::isAnimated(jointPath))
+<em>68: </em>            <font color="red"><strong>{</strong></font>
+<em>69: </em>                cout &lt;&lt; <font color="red">&quot;not animated&quot;</font> &lt;&lt; endl;
+<em>70: </em>                <strong>continue</strong>;
+<em>71: </em>            <font color="red"><strong>}</strong></font>
+<em>72: </em>
+<em>73: </em>            jointPaths.push_back(jointPath);
+</pre>
+</td></tr>
+</tbody></table></p></p><p>The key-times aren't that difficult neither: for every animated joint
+	we look for the animated plugs, get the <code>MFnAnimCurve</code>s, which
+	hold all the times, and extract them:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>37: </em>        MPlugArray animatedPlugs;
+<em>38: </em>        MAnimUtil::findAnimatedPlugs(jointPath, animatedPlugs);
+<em>39: </em>        <strong>for</strong> (unsigned int i = 0; i &lt; animatedPlugs.length(); ++i)
+<em>40: </em>        <font color="red"><strong>{</strong></font>
+<em>41: </em>            MObjectArray curves;
+<em>42: </em>            MAnimUtil::findAnimation(animatedPlugs[i], curves);
+<em>43: </em>            <strong>for</strong> (unsigned int j = 0; j &lt; curves.length(); ++j)
+<em>44: </em>            <font color="red"><strong>{</strong></font>
+<em>45: </em>                MFnAnimCurve curve(curves[j]);
+<em>46: </em>                <strong>for</strong> (unsigned int k = 0; k &lt; curve.numKeys(); ++k)
+<em>47: </em>                    jointTimes.insert(curve.time(k));
+<em>48: </em>            <font color="red"><strong>}</strong></font> <font color="#ffa600"><em>// for curves</em></font>
+<em>49: </em>        <font color="red"><strong>}</strong></font> <font color="#ffa600"><em>// for animatedPlugs</em></font>
+</pre>
+</td></tr>
+</tbody></table></p><p>Then we create a times-&gt;joint map, so all times are sorted (and we
+	know what joint is animated at each time). We need a multi-map here, as
+	several joints are usually animated at the same time
+	(<code>animationExtraction.hpp/cpp</code>):</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>24: </em>    <strong>typedef</strong> std::multimap&lt;MTime, uint32&gt; Times2JointMap;
+</pre>
+</td></tr>
+</tbody></table></p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em> 87: </em>        <strong>for</strong> (uint32 i = 0; i &lt; animatedJointPaths.size(); ++i)
+<em> 88: </em>        <font color="red"><strong>{</strong></font>
+<em> 89: </em>            MDagPath jointPath = animatedJointPaths[i];
+<em> 90: </em>            
+<em> 91: </em>            std::set&lt;MTime&gt; jointTimes = extractKeyFrameTimes(jointPath);
+<em> 92: </em>            
+<em> 93: </em>            <font color="#ffa600"><em>// the jointTimes-set contains all key-times this joint is </em></font>
+<em> 94: </em>            <font color="#ffa600"><em>// animated with.</em></font>
+<em> 95: </em>            <strong>for</strong> (std::set&lt;MTime&gt;::const_iterator it = jointTimes.begin();
+<em> 96: </em>                 it != jointTimes.end();
+<em> 97: </em>                 ++it)
+<em> 98: </em>                <font color="#ffa600"><em>// insert pairs [time, {animatedJointPath}Index] into</em></font>
+<em> 99: </em>                <font color="#ffa600"><em>// the times2JointMap.</em></font>
+<em>100: </em>                times2JointMap.insert(Times2JointMap::value_type(*it, i)); 
+<em>101: </em>        <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p><p>Once all key-times have been extracted, we set Maya's animation-time
+	to every time of this map, and get the transformations for every joint
+	that is animated.</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>159: </em>        <font color="#ffa600"><em>// save initial time to go back after we have extracted the</em></font>
+<em>160: </em>        <font color="#ffa600"><em>// transformations.</em></font>
+<em>161: </em>        const MTime initialTime = MAnimControl::currentTime();
+<em>162: </em>        
+<em>163: </em>        <font color="#ffa600"><em>// mayaTime = time Maya is set to. (property stays true in the</em></font>
+<em>164: </em>        <font color="#ffa600"><em>// following loop). I avoided naming it &quot;currentTime&quot;, as i name</em></font>
+<em>165: </em>        <font color="#ffa600"><em>// my loop-vars currentXX.</em></font>
+<em>166: </em>        MTime mayaTime = initialTime;
+<em>167: </em>
+<em>168: </em>        <font color="#ffa600"><em>// times2Joint is a multiset and hence sorted.</em></font>
+<em>169: </em>        <strong>for</strong> (Times2JointMap::const_iterator it = times2JointMap.begin();
+<em>170: </em>             it != times2JointMap.end();
+<em>171: </em>             ++it)
+<em>172: </em>        <font color="red"><strong>{</strong></font>
+<em>173: </em>            <strong>if</strong> (mayaTime != it-&gt;first)
+<em>174: </em>            <font color="red"><strong>{</strong></font>
+<em>175: </em>                nbKeyTimes++; <font color="#ffa600"><em>// just for logging</em></font>
+<em>176: </em>                MAnimControl::setCurrentTime(it-&gt;first);
+<em>177: </em>                mayaTime = it-&gt;first;
+<em>178: </em>            <font color="red"><strong>}</strong></font>
+<em>179: </em>            Track&amp;   currentTrack     = result.tracks[jointNames[it-&gt;second]];
+<em>180: </em>            MDagPath currentJointPath = animatedJointPaths[it-&gt;second];
+<em>181: </em>            KeyFrame newKeyFrame;
+<em>182: </em>            newKeyFrame.time = it-&gt;first;
+<em>183: </em>            <font color="#ffa600"><em>// extract the transformation for this joint.</em></font>
+<em>184: </em>            MFnTransform transform(currentJointPath);
+<em>185: </em>            newKeyFrame.transformation = transform.transformation().asMatrix();
+<em>186: </em>            currentTrack.push_back(newKeyFrame);
+<em>187: </em>        <font color="red"><strong>}</strong></font>
+<em>188: </em>        <font color="#ffa600"><em>// back to initial time</em></font>
+<em>189: </em>        MAnimControl::setCurrentTime(initialTime);
+</pre>
+</td></tr>
+</tbody></table></p></div>
+</div><br>
+<br><br>
+<hr width='20%' size='2' align='left'>
+<a name="footnote-footnote1159"><sup><small>1</small></sup></a>: Maya doesn't need to know,
+   what most plugins do, as long, as it receives the position at every given
+   frame.
+<br>
+</div></td>
+</tr></table><div class="skribe-ending">
+<hr> 
+<p class="ending"><font size="-1">
+This <span class="sc">Html</span> page has been produced by 
+<a href="http://www.inria.fr/mimosa/fp/Skribe" class="http">Skribe</a>.
+<br/>
+Last update <em>Sun Sep  5 10:44:30 2004</em>.</font></p></div>
+</body>
+</html>

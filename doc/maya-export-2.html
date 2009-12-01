@@ -1,0 +1,87 @@
+<!-- 95% W3C COMPLIANT, 95% CSS FREE, RAW HTML -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Introduction to Maya Exporters</title>
+ <style type="text/css">
+  <!--
+  pre { font-family: monospace }
+  tt { font-family: monospace }
+  code { font-family: monospace }
+  p.flushright { text-align: right }
+  p.flushleft { text-align: left }
+  span.sc { font-variant: small-caps }
+  span.sf { font-family: sans-serif }
+  span.skribetitle { font-family: sans-serif; font-weight: bolder; font-size: x-large; }
+  -->
+ </style>
+</head>
+
+<body class="chapter" bgcolor="#ffffff">
+<table width="100%" class="skribetitle" cellspacing="0" cellpadding="0"><tbody>
+<tr><td align="center" bgcolor="#8381de"><div class="skribetitle"><strong><big><big><big>2. gpExport - a Maya Exporter -- Coding styles and Conventions</big></big></big></strong></div><center>
+</center>
+</td></tr></tbody></table>
+<table cellpadding="3" cellspacing="0" width="100%" class="skribe-margins"><tr>
+<td align="left" valign="top" class="skribe-left-margin" width="20%" bgcolor="#dedeff"><div class="skribe-left-margin">
+<br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>main page</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table width="100%" border="0" style="border-collapse: collapse;" frame="void" rules="none"><tbody>
+<tr><td align="left" valign="top" colspan="1"><strong>top:</strong></td><td align="right" valign="top" colspan="1"><a href="maya-export.html#gpExport---a-Maya-Exporter" class="inbound">gpExport - a Maya Exporter</a></td></tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</center>
+<br/><br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>Coding styles and Conventions</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"></td></tr>
+</tbody></table>
+</center>
+<br/><br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>Chapters</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table cellspacing="1" cellpadding="1" width="100%" class="toc">
+<tbody>
+ <tr><td valign="top" align="left">1</td><td colspan="4" width="100%"><a href="maya-export-1.html#Introduction">Introduction</a></td></tr>
+ <tr><td valign="top" align="left">2</td><td colspan="4" width="100%"><a href="maya-export-2.html#Coding-styles-and-Conventions">Coding styles and Conventions</a></td></tr>
+ <tr><td valign="top" align="left">3</td><td colspan="4" width="100%"><a href="maya-export-3.html#Interfacing-with-Maya">Interfacing with Maya</a></td></tr>
+ <tr><td valign="top" align="left">4</td><td colspan="4" width="100%"><a href="maya-export-4.html#Extraction">Extraction</a></td></tr>
+ <tr><td valign="top" align="left">5</td><td colspan="4" width="100%"><a href="maya-export-5.html#gpExport">gpExport</a></td></tr>
+ <tr><td valign="top" align="left">6</td><td colspan="4" width="100%"><a href="maya-export-6.html#References">References</a></td></tr>
+</tbody>
+</table>
+</td></tr>
+</tbody></table>
+</center>
+</div></td>
+<td align="left" valign="top" class="skribe-body"><div class="skribe-body">
+<p>The exporter (<code>gpExport</code>) itself isn't enormous (about 3400
+   lines), but the code is still much easier to read, if one knows the
+   conventions, and coding-styles.</p><p>First the naming-conventions:
+     <ul class="itemize"><li><p>classes (and types) follow the Java-conventions: first
+			 letter is upper-case, ...<br/>
+	        Examples: <code>Vertex</code>, <code>MeshExtractor</code></p></li>
+<li><p>variables too follow the Java-conventions
+			   (first letter lower-case,  ...)<br/>
+		Examples: <code>jointNames</code>, <code>name</code></p></li>
+<li><p>methods are slightly different (following a convention I
+                 picked up at Wootsoft): <code>public</code> methods are uppercase,
+                 <code>private</code> ones are lower-case. <code>Protected</code>
+		 methods are slightly a mix-up (sorry).)</p></li>
+</ul></p><p>As far as containers go I tried to use the <code>STL</code> as much as
+   possible. I didn't use the &lt;algorithm&gt; framework, as I'm not really a fan of
+   it. But that's another issue.</p><p><code>struct</code>s are containers without much &quot;intelligence&quot;. <code>Class</code>es on the other hand will only hold information, they are supposed
+   too. In particulary, they won't contain intermediate results between
+   method-calls. As I wanted to avoid dynamic allocation (or static
+   function-members), methods usually return heavy <code>STL</code>-vars. This is
+   evidently not efficient, but allows (IMO) to follow the data-flow more
+   easily. If this becomes a bottle-neck it should be easy to change it.</p></div></td>
+</tr></table><div class="skribe-ending">
+<hr> 
+<p class="ending"><font size="-1">
+This <span class="sc">Html</span> page has been produced by 
+<a href="http://www.inria.fr/mimosa/fp/Skribe" class="http">Skribe</a>.
+<br/>
+Last update <em>Sun Sep  5 10:44:30 2004</em>.</font></p></div>
+</body>
+</html>

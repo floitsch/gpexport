@@ -1,0 +1,9 @@
+2009 11 03: changed license to MIT. moved repository to public server.
+2004 09 05: updated reference-section of docs: added "The Maya Exporter
+	    Factfile" (http://www.robthebloke.org/research/index.htm).
+2004 08 03: reformated the code, so it's not too wide. Finally implemented
+	    the missing check for selection (only selected objects are now
+	    selected, when "exporting selected".
+	    Wrote the doc.
+	    Needed to change the Makefile, so it links with glibc3.4.
+2004 07 06: changed Makefiles: cleanups and added install-target.

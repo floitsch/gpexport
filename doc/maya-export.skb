@@ -1,0 +1,540 @@
+(skribe-load "web-book.skr")
+
+(bibliography
+  '(book compMayaProg
+    (author "David A.D. Gould")
+    (title "Complete Maya Programming: An Extensive Guide to MEL and C++ API")
+    (publisher "Morgan Kaufmann")
+    (year "2002"))
+  '(misc maya-factfile
+    (title "The Maya Exporter Factfile")
+    (url "http://www.robthebloke.org/research/index.htm")
+    (author "Robert Bateman")
+    (year 2004))
+  '(misc gamedev
+    (title "How to Write a Simple Maya Model Exporter")
+    (author "Rafael Baptista")
+    (url "http://www.gamedev.net/reference/programming/features/mayaexporter/default.asp"))
+  '(misc ewertb
+    (title "Maya API How-To")
+    (author "Bryan Ewert")
+    (url "http://www.ewertb.com/maya/api/"))
+  '(misc greggman
+    (author "Greggman")
+    (url "http://greggman.com/pages/mayastuff.htm"))
+  '(misc nmf
+    (url "http://www2.ati.com/developer/NormalMapper_3_2_1.zip"))
+  '(misc ogre3d
+    (url "http://www.ogre3d.org"))
+  '(misc directX-sdk
+    (title "DirectX SDK")
+    (url "http://www.microsoft.com/downloads/details.aspx?FamilyID=9216652f-51e0-402e-b7b5-feb68d00f298&displaylang=en"))
+  '(misc quakerally
+    (title "Quake-Rally")
+    (url "http://www.quakerally.com/files/"))
+  '(misc neo
+    (title "Neo-Engine")
+    (url "http://neoengine.emedia-solutions-wolf.de/")))
+
+(define (gpExport) (code "gpExport"))
+(define (gpSource file-name start-line end-line)
+   (p
+    (frame :width 100.0
+      (prog :line start-line
+	  (source :language C
+		  :file (string-append "../src/" file-name)
+		  :start start-line
+		  :stop end-line)))))
+
+
+(document
+   :title "gpExport - a Maya Exporter"
+   :html-title "Introduction to Maya Exporters"
+   :author (author
+	      :name "Florian Loitsch"
+	      :url (ref :url "http://florian.loitsch.com/gpExport")
+	      :email (mailto "maya@florian.loitsch.com"))
+   (p [This document aims to be a comprehensive introduction to
+   writing Maya-exporters. Using code-fragments of ,(gpExport), a
+   General Purpose exporter, we explain the reader how to obtain the
+   most important information out of Maya.])
+   (p [If you just want to write your own exporter, without really
+   understanding the internals of Maya, you can reuse ,(gpExport), and skip
+   directly to section ,(ref :section "Extending gpExport").])
+   (p [This exporter has been started as a school-project. It's
+   original specification and report can be found
+   ,(ref :url "oldDocs/specification.html" :text "here") and
+   ,(ref :url "oldDocs/report.html" :text "here").])
+   (p [,(gpExport) (the source) can be found ,(ref :url
+   "http://florian.loitsch.com/gpExport/files/gpExport_current.tar.gz" :text
+   "here").])
+   
+(chapter :title "Introduction"
+   (p [In 2002/2003 I worked at Wootsoft and participated in the
+   creation of a MMORPG called "Iritor" (which unfortunately never got
+   released). From time to time I had to work in the tools- and
+   especially the Maya-plugins-area. As every game, we needed to
+   extract the most basic information out of Maya:
+   ,(itemize
+       (item [the mesh itself. This includes its name, the triangles and the
+		  vertices with their positions, normals, skin-weights, UV-sets,
+		  etc.])
+       (item [the skeleton: every animated mesh was bound to a skeleton.])
+       (item [the animation. We used skeleton- keyframe animation, and hence
+		  needed the transformation of each skeleton at each
+		  keyframe.]))])
+   (p [As we already had a working solution ,(footnote [We exported
+   our models using MS's X-exporter, and then extracted the
+   information out of the X-files.]) a maya-exporter wasn't essential,
+   but  we would have liked to have our own.])
+   (p [After some fruitless hours searching good documentation I
+   finally came to the following discouraging conclusion: Writing an exporter
+   for Maya doesn't seem very difficult, as long as you know how to do
+   it. And: There's virtually no documentation on the net.])
+   (p [We therefore decided to stick with the old solution, and
+   attack the exporter only once we had more time. Unexpectedly I did
+   find this time: After one year at Wootsoft I returned to France to
+   finish my last year of studies. There every student needed to work on a
+   industrial project. I was allowed to do the exporter.])
+   (p [As I was really disappointed by the lack of documentation
+   (be it well documented exporters, or tutorials) I emphasized the
+   reusability of the exporter. This meant well documented code,
+   pluggable code-parts, and a documentation. Eventhough Wootsoft
+   unfortunately ceased to exist before I had finished the exporter, I
+   continued working on it, and reached a satisfying result in the
+   summer of 2004.])
+   (p [This document finishes my initial goal by providing the last
+   missing part: a good documentation / tutorial. (well. At least I
+   hope it's "good";)]))
+(chapter :title "Coding styles and Conventions"
+   (p [The exporter (,(gpExport)) itself isn't enormous (about 3400
+   lines), but the code is still much easier to read, if one knows the
+   conventions, and coding-styles.])
+   (p [First the naming-conventions:
+     ,(itemize
+       (item (p [classes (and types) follow the Java-conventions: first
+			 letter is upper-case, ...,(linebreak 1)
+	        Examples: ,(code "Vertex"), ,(code "MeshExtractor")]))
+       (item (p [variables too follow the Java-conventions
+			   (first letter lower-case,  ...),(linebreak 1)
+		Examples: ,(code "jointNames"), ,(code "name")]))
+       (item (p [methods are slightly different (following a convention I
+                 picked up at Wootsoft): ,(code "public") methods are uppercase,
+                 ,(code "private") ones are lower-case. ,(code "Protected")
+		 methods are slightly a mix-up (sorry).)])))])
+   (p [As far as containers go I tried to use the ,(code "STL") as much as
+   possible. I didn't use the <algorithm> framework, as I'm not really a fan of
+   it. But that's another issue.])
+   (p [,(code "struct")s are containers without much "intelligence". ,(code
+   "Class")es on the other hand will only hold information, they are supposed
+   too. In particulary, they won't contain intermediate results between
+   method-calls. As I wanted to avoid dynamic allocation (or static
+   function-members), methods usually return heavy ,(code "STL")-vars. This is
+   evidently not efficient, but allows (IMO) to follow the data-flow more
+   easily. If this becomes a bottle-neck it should be easy to change it.]))
+(chapter :title "Interfacing with Maya"
+  (p [At first I didn't have the intention on writing this chapter, and
+   I still think, that there's no need to write it. This part is surprisingly
+   well document in Maya's help and on the Net. I'm therefore rather summarizing
+   the techniques, than explaining every detail. Feel free to look for more
+   information on the web, or even to complement this chapter (it's open-doc,
+   isn't it;).]
+  (p [In order to write an exporter one needs to interface in some way with
+   Maya. The more obvious one is of course by writing a plugin, and
+   implementing Maya's "interfaces". Another interesting approach consists in
+   writing a stand-alone application, that just uses Maya's libraries. I
+   recommend keeping the exporter general enough, so it can be used as both.])
+  (section :title "Plugin"
+   [If the exporter should be accessible from within Maya, the exporter needs
+   to derive from ,(code "MPxFileTranslator"). Furthermore some methods must be
+   implemented:
+   ,(itemize
+       (item [,(code "haveReadMethod"): most of the time returns
+					   ,(code "false").])
+       (item [,(code "haveWriteMethod"): most of the time returns
+					    ,(code "true").])
+       (item [,(code "reader"): most of the time returns an error.])
+       (item [,(code "writer"): exports the scene. ,(bold "The") method, that
+				does all the work.])
+       (item [,(code "identifyFile"): recognizes the plugin's files
+				       (or not;).])
+       (item [,(code "defaultExtension"): obvious.]))
+   Note however, that ,(gpExport) already does all this work for
+   you. By reusing the framework only two methods need to be implemented:
+   ,(itemize
+       (item [,(code "Export"): more or less equivalent to ,(code "writer")])
+       (item [,(code "getExtension"): more or less equivalent to
+				      ,(code "defaultExtension")]))]))
+  (section :title "Executable"
+   (p [Writing an executable is even easier (as long as one knows what libraries
+   are needed, and how to link them to your executable). One just needs to
+   initialize the ,(code "MLibrary"), which can be conveniently done using
+   ,(gpExport)'s ,(code "MayaLibrary")-class. In the latter case one just needs
+   instantiate this class, as shown in ,(code "executable.cpp"):])
+   (gpSource "executable.cpp" 54 62)
+   (p [I might say: this file is an excellent example of a
+   Maya-executable;). Compiling the cpp-file is then easy. What's way more
+   difficult is the linking. I heavily advise to reuse ,(gpExport)'s
+   Makefile. It could save you a lot of time...])))
+(chapter :title "Extraction"
+  (p [This is clearly the biggest part of this document, as  Maya is not very
+   coder-friendly what extraction is concerned. And I'm not even going into
+   details...,(linebreak)
+   As a sidenote: Be aware that (AFAIK) any new plugin could break any (more
+   sophisticated) exporter. In other words: one can never really finish an
+   exporter, as there might come a new plugin, that forces an update of the
+   exporter.])
+  (section :title "Mesh"
+   (p [Let's start with the struct that will contain the mesh's information:])
+	(gpSource "mesh.hpp" 55 65)
+   (p [The obvious fields are ,(code "name"), ,(code "vertices"), ,(code "indices")
+   and ,(code "materials"). Each vertex itself has 3 fields, resp. pointing to
+   an entry in the ,(code "positions"), ,(code "normals") and ,(code "uvs").
+   The position-index is also used to index into the
+   ,(code "influences")-array, which itself is stored in the ,(code
+   "skinningData").,(linebreak 1)
+   Most of these entries will be explained in more detail later on.])
+   (p [The easiest way of getting all meshes is by iterating over them. The
+      ,(code "MItDag")-class does just that. Here's an example (this time taken
+   from ,(code "meshExtraction.cpp")):])
+    (gpSource "meshExtraction.cpp" 395 414)
+   (p [,(code "MItDag") iterates over all Maya-items. Depending on the
+   parameters it does either a depth-first-, or breadth-first-search. The
+   additional filter-parameter limits the search to the specified type (in this
+   case ,(code "MFn::kMesh")).])
+   (p [We then just need to use the Mesh-function-set ,(code "MFnMesh") to
+   access each of the found ,(code "MDagPath")s.])
+   (p [If the mesh is animated one should put the model into its correct
+   frame (or its ,(ref :subsection "Bind-Pose")).])
+  (subsection :title "Positions"
+   (p [The vertex positions is the most basic information one can extract out of
+   Maya. As it is needed by Maya itself,(footnote [Maya doesn't need to know,
+   what most plugins do, as long, as it receives the position at every given
+   frame.]), it is quite easy to access the position-information])
+   (p [Supposing the mesh is in its correct frame the position-extraction is a
+   very short:])
+   
+     (gpSource "meshExtraction.cpp" 160 161)
+
+     ) ; subsection "Positions"
+  (subsection :title "Normals"
+   (p [Again. Extraction is quite easy. However, we don't know yet, how to join
+   the positions and normals. (,(bold "No"): ,(code "position[i]") does not have
+   ,(code "normal[i]") as normal). We'll need ,(emph "Vertex")-information to do
+    that.])
+      (gpSource "meshExtraction.cpp" 179 180))
+
+  (subsection :title "UVs"
+   (p [Every mesh can have several UV-sets, which are accessed by their
+    name. Furthermore each UV-set is seperated in two arrays: the Us and the
+    Vs.,(linebreak 1)
+    Compared to the positions and normals it's slightly longer, but still very
+    easy: We get all set-names, and iterate over them, extracting all UVs.])
+   (p [Seems to be the right moment to introduce the typedef, that will hold
+    the UVs:])
+
+      (gpSource "mesh.hpp" 52 52)
+
+   (p [And now the code:])
+   
+      (gpSource "meshExtraction.cpp" 199 221))
+
+  (subsection :title "Skinning-Data"
+   (p [In order to describe the skinning-extraction, I need to indroduce the
+   structs, that will hold the data.
+   (,(code "mesh.hpp")):])
+   (gpSource "mesh.hpp" 22 42)
+   (p [The only not obvious field is the ,(code "jointNames")-vector. We need
+   this vector, to achieve the mapping between animation-tracks and the
+   influences: The name is used as identifier for each joint. Rather than
+   putting the name into every influence, we just index into the
+   ,(code "jointNames")-vector.])
+   (p [Once something touches animation, it starts getting difficult. And
+   that's true for the skinning-data too. There's no easy way to get to the
+   skin-cluster associated with the mesh. One could search the input-plugs and
+   find the skin-cluster from there on. That's the way proposed by greggman on
+   his ,(ref :url "http://www.greggman.com/pages/mayastuff.htm#skin" :text
+   "site").])
+   (p [,(gpExport) (as well as for instance ,(it "MS's X-Exporter")) takes an
+   easier approach (which is less efficient): For every mesh we iterator over
+   all dependency-nodes, filtering for skin-clusters. For every found
+   skin-cluster, we look at all output-connections. If the current mesh is an
+   output-shape of the skin-cluster, we found our skin-cluster.:])
+   (gpSource "meshExtraction.cpp" 75 90)
+  
+   (p [If a skin-cluster was found, we get all influence-object (should be
+   joints), and store them in the ,(code "jointNames")-array.])
+   (gpSource "meshExtraction.cpp" 100 107)
+   (p [Then we get the influences:])
+   (gpSource "meshExtraction.cpp" 111 130)
+   (p [The important part is the call to ,(code "getWeights") of the
+   skin-cluster. We iterate over all points (,(code "geometryIt")) and get the
+   skinweights with this function (one by one).,(linebreak 1)
+   We then finally convert the retrieved weights into a convenient format:])
+   (gpSource "meshExtraction.cpp" 133 145))
+   
+  (subsection :title "Triangles and Vertices"
+   (p [Triangles and vertices are not immediate to obtain, but the extraction
+   is straightforward. One has to pass by Maya's faces to get them. One correct
+   way to do that: using ,(code "MItMeshPolygon") as in the following example:
+      ,(gpSource "meshExtraction.cpp" 360 365)])
+
+   (subsubsection :title "Vertices"
+    (p [The positions, normals, etc. aren't yet useful, as we can't relate
+    them. That's what the vertices are for. As already written, Maya stores its
+    information in faces, and we need to pass by them. As we don't need the
+    seperation into faces, we'll just merge all faces of a mesh.])
+    (p [The notion of "vertex" itself doesn't exist in Maya. Instead there are
+    functions, to access all vertex-entries independantly (which makes sense,
+    as not every vertex contains always the same entries). We are actually
+    simplifying our life, by using always the same vertex-struct.])
+    (p [Here's finally the vertex-extraction method:])
+      (gpSource "meshExtraction.cpp" 282 298))
+   (subsubsection :title "Triangles"
+    (p [Maya only triangulates individual faces (=polygons), but not complete
+    meshes. What's slightly more annoying: Maya's triangulation returns
+    indices for the positions. We want the indices to index into the
+    face-relative vertices. After all, if we can't get from the triangles to
+    the vertices, the vertices are pretty useless.])
+    (p [The extraction-method isn't very complicated (have a look at the code
+    for even more comments):])
+      (gpSource "meshExtraction.cpp" 238 251)
+    (p [Note, that we are merging all faces (we won't be able to tell from what
+    face a triangle came frome).])
+    (p [And now the conversion-method:])
+      (gpSource "meshExtraction.cpp" 37 57)
+    (p [Basically we take every positionIndex (,(code "objectIndices[i]")), and
+    search the corresponding vertex, that has the same positionIndex. This
+    should give a unique result (as positions are only used once per face).])))
+  (subsection :title "Material"
+   (p [Although materials are shared between different meshes, ,(gpExport)
+    currently creates new materials for every mesh (in other words: the
+    materials are duplicated). However, it should be easy to join them again
+    (if needed).])
+   (p [Materials are stored in shaders and the one uses ,(code
+    "getConnectedShaders") on a mesh to get them (,(code
+    "materialExtraction.cpp")):])
+    (gpSource "materialExtraction.cpp" 182 184)
+   (p [Then we iterate over all shaders, and search for ,(code
+    "surfaceShader")-plugs, as they are the nodes containing materials:])
+    (gpSource "materialExtraction.cpp" 122 128)
+   (p [For each connected shader, we get the shader-node, and convert the
+    contained material-information into a more convenient format (I never
+    really tested the conversion, but all other exporters I've seen do it this
+    way.) Furthermore we only extract ,(code "phong")-, ,(code "blinn")- and
+    ,(code "lambert")-shaders:])
+     (gpSource "materialExtraction.cpp" 134 147)
+     (gpSource "materialExtraction.cpp" 96 111)
+   (p [,(code "getShininess") is parametrized by the type, and returns an
+    appropriate value for each shader-type.])
+   (p [Finally ,(gpExport) extracts the textures:])
+    (gpSource "materialExtraction.cpp" 37 49))
+  ) ; section Mesh
+  (section :title "Animation"
+   (p [Animation is way more complicated than static information. One
+    difficulty lies in the fact, that people need different
+    animation-data. Some need the positions at every frame, some want
+    skeleton-transformations at each frame, some want them just at
+    key-frames, etc.])
+   (p [,(gpExport) only extracts skeleton-keyframes, but the used
+    methods should be applicable to other extractions. Also: the
+    ,(gpExport)'s extraction is not complete. I already found
+    examples, where nothing got extracted... (feel free to submit
+    patches;)])
+   (p [At Wootsoft we used the same animation for different skeletons,
+    and the extraction is therefore completely split up (which is not
+    really unreasonable anyways).])
+   (subsection :title "Bind-Pose"
+    (p [In order to export the mesh and skeleton correctly, the model
+    needs to be put into its bind-pose first. Ideally the exporter
+    should undo this modification:).])
+    (p [This should have been easy, but was one of the most difficult
+    tasks of the exporter: there's no easy way to get the bind-pose
+    matrix.])
+    (p [First thing to do, to go into bind-pose: turn the inverse
+    kinematic off ,(code "bindPoseTool.cpp"):
+     ,(gpSource "bindPoseTool.cpp" 132 133)])
+    (p [We then run over all joints, find the bind-pose matrix, and
+    put the joint into its initial transformation. If a joint is
+    instanced, only the first instance is put back into bind-pose
+    (which automatically puts back the others too). Also, we need
+    to remember the current transformation, as we need to go back
+    later.])
+    (gpSource "bindPoseTool.cpp" 152 159)
+	(p [Now the difficult task: getting the bind-pose matrix. There
+	are several methods of doing it, and ,(gpExport) unfortunately
+	uses one, that is not completly correct. For the correct way
+	look at greggman's ,(ref
+	:url "http://www.greggman.com/pages/mayastuff.htm"
+	:text "site") (again).])
+	(p [We first find the ,(code "bindPose")-plug and all connected
+	nodes:])
+	(gpSource "bindPoseTool.cpp" 61 64)
+	(p [we then get the first found connection, search for the
+	,(code "xformMatrix")-attribute, and finally extract it:
+	,(gpSource "bindPoseTool.cpp" 78 94)])
+	(p [I don't know if this is really necessary, but it can't hurt:
+	syncing the meshes:
+	,(gpSource "bindPoseTool.cpp" 105 114)])
+	(p [Undoing the information is way easier:
+	,(gpSource "bindPoseTool.cpp" 178 194)])
+	(p [As ,(gpExport) already does all this for you, I
+	advise using its implementation]))
+
+   (subsection :title "Skeleton"
+    (p [Skeletons are essentially hierarchical transformations:
+    a transformation-matrix and its children. In addition we store
+    the joint-name, as we'll use it as identifier. Eventhough not
+    necessary we keep the world-transfrom too (,(code "skeleton.hpp")):
+    ,(gpSource "skeleton.hpp" 18 33)])
+    (p [All sequent code-snippets of this subsection are taken from
+    ,(code "skeletonExtraction.cpp").])
+    (p [The extraction itself is not that difficult: for each root-joint, we
+    recursively extract the hierarchy.])
+    (gpSource "skeletonExtraction.cpp" 67 78)
+    (p [The ,(code "extractSkeletonHierarchy")-method first gets the
+    joint-name. Then the local transformation, and the world transform.
+    Finally it iterates over its children:])
+    (gpSource "skeletonExtraction.cpp" 28 44))
+   (subsection :title "Tracks"
+    (p [,(gpExport) gets the tracks (the keyframes and their transformations)
+	for all joints. The struct holding this information has 3 additional
+	fields: ,(code "fps"), ,(code "start") end ,(code "end"). ,(code "fps")
+	obviously holds the frames per second. This also means, that some
+	Maya-fps-settings can't be correctly extracted (for instance, all fps
+	smaller the one). ,(code "start") and ,(code "end") are redundant
+	fields, as the beginning and end of the animation can be found in the
+	tracks, but often simplifies the output. (,(code "animation.hpp"))])
+	(gpSource "animation.hpp" 22 41)
+	(p [The extraction is done in three steps:
+	 ,(itemize
+	   (item [get all animated joints.])
+	   (item [get the key-times for all joints.])
+	   (item [and finally get the transformations.]))])
+	(p [The animated joints are quite easy to obtain:
+	     ,(gpSource "animationExtraction.cpp" 60 73)])
+	(p [The key-times aren't that difficult neither: for every animated joint
+	we look for the animated plugs, get the ,(code "MFnAnimCurve")s, which
+	hold all the times, and extract them:])
+	(gpSource "animationExtraction.cpp" 37 49)
+	(p [Then we create a times->joint map, so all times are sorted (and we
+	know what joint is animated at each time). We need a multi-map here, as
+	several joints are usually animated at the same time
+	(,(code "animationExtraction.hpp/cpp")):])
+	(gpSource "animationExtraction.hpp" 24 24)
+	(gpSource "animationExtraction.cpp" 87 101)
+	(p [Once all key-times have been extracted, we set Maya's animation-time
+	to every time of this map, and get the transformations for every joint
+	that is animated.])
+	(gpSource "animationExtraction.cpp" 159 189)
+	 
+    ) ; subsection Tracks 
+   ) ; section Animation
+  ) ; chapter Extraction
+(chapter :title "gpExport"
+ (p [During this project an exporter-framework emerged: ,(gpExport). It
+ extracts typical model-information game-exporters need. The developer
+ just needs to implement the writing-part of the plug-in.])
+ (section :title "Architecture"
+  (p (image :file "gpExporter_uml.eps" :width 100.))
+  (p [Although the UML-diagram doesn't show it, all classes inherit virtually
+  from ,(code "gpBase"), which is just a helper-class providing a
+  status-variable (needed for almost all Maya-calls), and ways to check it.])
+  (p [The ,(code "doXXX")- and ,(code "shouldXXX")-functions are
+  template-methods, to configure the exporter. They are all taken care of by
+  ,(code "GPExporter"), which takes the configuration from the
+  ,(code "exporterConfig"), that has been passed to it
+  (,(code "IExporterConfig") is basically just an interface for all these
+  parameters).])
+  (p [In addition to the shown classes, ,(gpExport) provides two additional
+  classes:
+  ,(itemize
+    (item [a ,(code "converter")-class])
+    (item [and a ,(code "fileWriter")-class]))
+   Both of them are utility-classes for implementing the abstract
+   ,(code "WriteScene")-method.])
+  (p (image :file "converter_fileWriter.eps" :width 50.)))
+ (section :title "Extending gpExport"
+  (p [This section essentially describes, how to use ,(gpExport) to easily
+  implement a standard exporter. I'll take ,(code "MS3D") (MilkShake3D) as
+  example. As this is really not a ,(code "MS3D")-tutorial, I won't
+  go into details for the writing-part though.])
+  (subsection :title "Exporter"
+   (p [Let's start by completing the ,(code "GPExporter")-class
+   ,(code "ms3dExporter.hpp"):])
+   (gpSource "ms3dExporter.hpp" 19 32)
+   (p [,(code "MS3DExporter") redirects its ,(code "Export")-method to
+   the ,(code "GPExporter")-part, which will call ,(code "WriteScene") after
+   having extracted the necessary information. ,(code "WriteScene") itself
+   is forwarded to the ,(code "MS3DWriter")-part.])
+   (p [,(code "MS3DWriter") on the other hand uses ,(code "Converter") and
+   ,(code "FileWriter") to do its task. In particulary it doesn't implement
+   the ,(code "WriteScene") itself, but provides the
+   ,(code "doWriteScene")-method, which is called by the
+   ,(code "FileWriter")-class.])
+   (p [Completing the ,(code "GPExporter")-class is not sufficient. One still
+   needs to create a plugin or executable.]))
+  (subsection :title "Plugin"
+   (p [,(gpExport) already provides a basic plugin-class, that should be
+   sufficient for most uses. Obviously it isn't complete, as the plugin-class
+   contains exporter-specific information (the name, extension, etc.).
+   Information, that can be demanded at runtime over virtual methods are pure
+   virtual in the ,(gpExport)-plugin class. These are the
+   ,(code "getExtension")- and ,(code "Export")-method. A custom exporter
+   therefore needs to implement these methods (,(code "ms3dPlugin.cpp")):])
+   (gpSource "ms3dPlugin.cpp" 16 17)
+   (gpSource "ms3dPlugin.cpp" 21 26)
+   (gpSource "ms3dPlugin.cpp" 47 53)
+   (p [In addition Maya needs two static methods: ,(code "initializePlugin")
+   and ,(code "uninitializePlugin"). ,(code "initializePlugin") provides
+   a plugin-description (,(code "MPnPlugin")) to Maya, and registers the
+   exporter (translator). One parameter is a static function, that allows to
+   create our translator:])
+   (gpSource "ms3dPlugin.cpp" 31 36)
+   (gpSource "ms3dPlugin.cpp" 57 72)
+   (p [All those variables (,(code "vendor"), ...) have been defined earlier:])
+   (gpSource "ms3dPlugin.cpp" 7 14)
+   (p [And now finally the ,(code "uninitializePlugin")-function:])
+   (gpSource "ms3dPlugin.cpp" 74 78))
+  (subsection :title "Executable"
+   (p [The code for executables is even simpler: One just needs to provide the
+   classical ,(code "main")-function, and call ,(code "exportScene") of the
+   ,(code "executable.hpp")-header (,(code "ms3dExecutable")):])
+   (gpSource "ms3dExecutable.cpp" 10 33)
+   (p [And here's the signature of the ,(code "exportScene")-function:])
+   (gpSource "executable.hpp" 13 16)
+   (p [This simplicity induces some restrictions: there's no way of
+   paramizing the exporter. If this is needed (which is usually the case), one
+   needs to copy some lines out of the ,(code "executable.cpp")-file, and
+   implement the ,(code "exportScene")-method on his own. Fortunately the code
+   is short (6 code-lines) and not difficult.])
+   (p [The only difficulty in creating executables lies in the linking. A
+   Maya-executable needs a bunch of libraries (in the correct order). If
+   you want to win some time, use ,(gpExport)'s Makefile.]))))
+ (chapter :title "References"
+  (p [Update: Robert Bateman wrote a similar document
+  ,(ref :bib 'maya-factfile) like this one. Have a look at it.])
+  (p [Unfortunately there isn't much documentation out there. Maya's
+  help is more or less equivalent to Java-doc (so only helpful, when one needs
+  information about a specific function or parameter), and the existing
+  books are mostly about using Maya itself, or writing MEL-scripts. The
+  only book about Maya's API I found is "Complete Maya Programming"
+  ,(ref :bib 'compMayaProg), which promised to be helpful. I was quite
+  disappointed though. The book might be nice for writing other kinds of
+  plugins, but did definitely not help in writing the exporter.])
+  (p [Still: there are helpful resources. GameDev.net ,(ref :bib 'gamedev)
+  provides an example of a complete stand-alone exporter, including animations.
+  It hides some complications one usually encounters, but it's still a great
+  site. Other sites ,(ref :bib 'ewertb), ,(ref :bib 'greggman) contain
+  FAQs for Maya-plugins (,(bold "very") helpful).])
+  (p [Finally there are some open-source exporters (or close too;). MS's
+  exporter found in the DirectX SDK ,(ref :bib 'directX-sdk) is quite complete,
+  but mostly unreadable. ATI's normalmapper ,(ref :bib 'nmf) contains an
+  exporter for static meshes (so not very exhaustive). Quake-Rally's exporter
+  ,(ref :bib 'quakerally) has been recently updated, and I've to admit: I don't
+  know how helpful it is now. And finally neo-engine's exporter
+  ,(ref :bib 'neo) and Ogre3D's exporter ,(ref :bib 'ogre3d) are both very
+  helpful (and in some parts similar).])
+  (the-bibliography))
+  )
+   

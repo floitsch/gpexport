@@ -1,0 +1,273 @@
+<!-- 95% W3C COMPLIANT, 95% CSS FREE, RAW HTML -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Introduction to Maya Exporters</title>
+ <style type="text/css">
+  <!--
+  pre { font-family: monospace }
+  tt { font-family: monospace }
+  code { font-family: monospace }
+  p.flushright { text-align: right }
+  p.flushleft { text-align: left }
+  span.sc { font-variant: small-caps }
+  span.sf { font-family: sans-serif }
+  span.skribetitle { font-family: sans-serif; font-weight: bolder; font-size: x-large; }
+  -->
+ </style>
+</head>
+
+<body class="chapter" bgcolor="#ffffff">
+<table width="100%" class="skribetitle" cellspacing="0" cellpadding="0"><tbody>
+<tr><td align="center" bgcolor="#8381de"><div class="skribetitle"><strong><big><big><big>5. gpExport - a Maya Exporter -- gpExport</big></big></big></strong></div><center>
+</center>
+</td></tr></tbody></table>
+<table cellpadding="3" cellspacing="0" width="100%" class="skribe-margins"><tr>
+<td align="left" valign="top" class="skribe-left-margin" width="20%" bgcolor="#dedeff"><div class="skribe-left-margin">
+<br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>main page</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table width="100%" border="0" style="border-collapse: collapse;" frame="void" rules="none"><tbody>
+<tr><td align="left" valign="top" colspan="1"><strong>top:</strong></td><td align="right" valign="top" colspan="1"><a href="maya-export.html#gpExport---a-Maya-Exporter" class="inbound">gpExport - a Maya Exporter</a></td></tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</center>
+<br/><br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>gpExport</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table cellspacing="1" cellpadding="1" width="100%" class="toc">
+<tbody>
+ <tr><td valign="top" align="left">5.1</td><td colspan="4" width="100%"><a href="maya-export-5.html#Architecture">Architecture</a></td></tr>
+ <tr><td valign="top" align="left">5.2</td><td colspan="4" width="100%"><a href="maya-export-5.html#Extending-gpExport">Extending gpExport</a></td></tr>
+ <tr><td></td><td valign="top" align="left">5.2.1</td><td colspan="3" width="100%"><a href="maya-export-5.html#Exporter">Exporter</a></td></tr>
+ <tr><td></td><td valign="top" align="left">5.2.2</td><td colspan="3" width="100%"><a href="maya-export-5.html#Plugin">Plugin</a></td></tr>
+ <tr><td></td><td valign="top" align="left">5.2.3</td><td colspan="3" width="100%"><a href="maya-export-5.html#Executable">Executable</a></td></tr>
+</tbody>
+</table>
+</td></tr>
+</tbody></table>
+</center>
+<br/><br/><center><table width="97%" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse;" frame="box" rules="none"><tbody>
+<tr bgcolor="#8381de"><th align="center" colspan="1"><font color="#ffffff"><strong>Chapters</strong></font></th></tr>
+<tr bgcolor="#ffffff"><td align="center" colspan="1"><table cellspacing="1" cellpadding="1" width="100%" class="toc">
+<tbody>
+ <tr><td valign="top" align="left">1</td><td colspan="4" width="100%"><a href="maya-export-1.html#Introduction">Introduction</a></td></tr>
+ <tr><td valign="top" align="left">2</td><td colspan="4" width="100%"><a href="maya-export-2.html#Coding-styles-and-Conventions">Coding styles and Conventions</a></td></tr>
+ <tr><td valign="top" align="left">3</td><td colspan="4" width="100%"><a href="maya-export-3.html#Interfacing-with-Maya">Interfacing with Maya</a></td></tr>
+ <tr><td valign="top" align="left">4</td><td colspan="4" width="100%"><a href="maya-export-4.html#Extraction">Extraction</a></td></tr>
+ <tr><td valign="top" align="left">5</td><td colspan="4" width="100%"><a href="maya-export-5.html#gpExport">gpExport</a></td></tr>
+ <tr><td valign="top" align="left">6</td><td colspan="4" width="100%"><a href="maya-export-6.html#References">References</a></td></tr>
+</tbody>
+</table>
+</td></tr>
+</tbody></table>
+</center>
+</div></td>
+<td align="left" valign="top" class="skribe-body"><div class="skribe-body">
+<p>During this project an exporter-framework emerged: <code>gpExport</code>. It
+ extracts typical model-information game-exporters need. The developer
+ just needs to implement the writing-part of the plug-in.</p><!-- Architecture -->
+<a name="Architecture"></a>
+<div class="skribesectiontitle"><table width="100%"><tr><td bgcolor="#dedeff"><h3><font color="black">5.1 Architecture</font>
+</h3></td></tr></table>
+</div><div class="section">
+<p><img src="./gpExporter_uml.gif" border="0" alt="" width="100%"></p><p>Although the UML-diagram doesn't show it, all classes inherit virtually
+  from <code>gpBase</code>, which is just a helper-class providing a
+  status-variable (needed for almost all Maya-calls), and ways to check it.</p><p>The <code>doXXX</code>- and <code>shouldXXX</code>-functions are
+  template-methods, to configure the exporter. They are all taken care of by
+  <code>GPExporter</code>, which takes the configuration from the
+  <code>exporterConfig</code>, that has been passed to it
+  (<code>IExporterConfig</code> is basically just an interface for all these
+  parameters).</p><p>In addition to the shown classes, <code>gpExport</code> provides two additional
+  classes:
+  <ul class="itemize"><li>a <code>converter</code>-class</li>
+<li>and a <code>fileWriter</code>-class</li>
+</ul>
+   Both of them are utility-classes for implementing the abstract
+   <code>WriteScene</code>-method.</p><p><img src="./converter_fileWriter.gif" border="0" alt="" width="50%"></p></div><br>
+<!-- Extending gpExport -->
+<a name="Extending-gpExport"></a>
+<div class="skribesectiontitle"><table width="100%"><tr><td bgcolor="#dedeff"><h3><font color="black">5.2 Extending gpExport</font>
+</h3></td></tr></table>
+</div><div class="section">
+<p>This section essentially describes, how to use <code>gpExport</code> to easily
+  implement a standard exporter. I'll take <code>MS3D</code> (MilkShake3D) as
+  example. As this is really not a <code>MS3D</code>-tutorial, I won't
+  go into details for the writing-part though.</p><!-- Exporter -->
+<a name="Exporter"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">5.2.1 Exporter</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>Let's start by completing the <code>GPExporter</code>-class
+   <code>ms3dExporter.hpp</code>:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>19: </em>    <strong>class</strong> MS3DExporter
+<em>20: </em>        : virtual protected GPBase,
+<em>21: </em>          public GPExporter,
+<em>22: </em>          protected MS3DWriter
+<em>23: </em>    <font color="red"><strong>{</strong></font>
+<em>24: </em>    public:
+<em>25: </em>        void Export(const IExporterConfig&amp; config)
+<em>26: </em>            <font color="red"><strong>{</strong></font> GPExporter::Export(config); <font color="red"><strong>}</strong></font>
+<em>27: </em>
+<em>28: </em>    protected:
+<em>29: </em>        void WriteScene(const Scene&amp; extractedScene,
+<em>30: </em>                        const std::string&amp; outFile)
+<em>31: </em>            <font color="red"><strong>{</strong></font> MS3DWriter::WriteScene(extractedScene, outFile); <font color="red"><strong>}</strong></font>
+<em>32: </em>    <font color="red"><strong>}</strong></font>;
+</pre>
+</td></tr>
+</tbody></table></p><p><code>MS3DExporter</code> redirects its <code>Export</code>-method to
+   the <code>GPExporter</code>-part, which will call <code>WriteScene</code> after
+   having extracted the necessary information. <code>WriteScene</code> itself
+   is forwarded to the <code>MS3DWriter</code>-part.</p><p><code>MS3DWriter</code> on the other hand uses <code>Converter</code> and
+   <code>FileWriter</code> to do its task. In particulary it doesn't implement
+   the <code>WriteScene</code> itself, but provides the
+   <code>doWriteScene</code>-method, which is called by the
+   <code>FileWriter</code>-class.</p><p>Completing the <code>GPExporter</code>-class is not sufficient. One still
+   needs to create a plugin or executable.</p></div>
+<!-- Plugin -->
+<a name="Plugin"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">5.2.2 Plugin</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p><code>gpExport</code> already provides a basic plugin-class, that should be
+   sufficient for most uses. Obviously it isn't complete, as the plugin-class
+   contains exporter-specific information (the name, extension, etc.).
+   Information, that can be demanded at runtime over virtual methods are pure
+   virtual in the <code>gpExport</code>-plugin class. These are the
+   <code>getExtension</code>- and <code>Export</code>-method. A custom exporter
+   therefore needs to implement these methods (<code>ms3dPlugin.cpp</code>):</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>16: </em>    <strong>class</strong> MS3DPlugin
+<em>17: </em>        : public GPTranslation::Plugin
+</pre>
+</td></tr>
+</tbody></table></p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>21: </em>        <font color="#ffa600"><em>// template-method (of GPTranslation::Plugin)</em></font>
+<em>22: </em>        std::string
+<em>23: </em>        getExtension() const
+<em>24: </em>            <font color="red"><strong>{</strong></font>
+<em>25: </em>                <strong>return</strong> extension;
+<em>26: </em>            <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>47: </em>        void
+<em>48: </em>        Export(const IExporterConfig&amp; config)
+<em>49: </em>            <font color="red"><strong>{</strong></font>
+<em>50: </em>                <font color="#ffa600"><em>// MS3DExporter::Export(config); // can't do :(</em></font>
+<em>51: </em>                MS3DExporter exporter;
+<em>52: </em>                exporter.Export(config);
+<em>53: </em>            <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p><p>In addition Maya needs two static methods: <code>initializePlugin</code>
+   and <code>uninitializePlugin</code>. <code>initializePlugin</code> provides
+   a plugin-description (<code>MPnPlugin</code>) to Maya, and registers the
+   exporter (translator). One parameter is a static function, that allows to
+   create our translator:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>31: </em>        <strong>static</strong>
+<em>32: </em>        void*
+<em>33: </em>        creator()
+<em>34: </em>            <font color="red"><strong>{</strong></font>
+<em>35: </em>                <strong>return</strong> new MS3DPlugin();
+<em>36: </em>            <font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>57: </em>MStatus initializePlugin(MObject obj)
+<em>58: </em><font color="red"><strong>{</strong></font>
+<em>59: </em>    using namespace MS3DTranslation;
+<em>60: </em>
+<em>61: </em>    MFnPlugin plugin(obj,
+<em>62: </em>                     vendor,
+<em>63: </em>                     version,
+<em>64: </em>                     requiredApiVersion);
+<em>65: </em>
+<em>66: </em>    <font color="#ffa600"><em>// Register the translator:</em></font>
+<em>67: </em>    <strong>return</strong> plugin.registerFileTranslator(translatorName,
+<em>68: </em>                                         (char*)pixmapName,
+<em>69: </em>                                         MS3DPlugin::creator,
+<em>70: </em>                                         (char*)optionsScript,
+<em>71: </em>                                         (char*)defaultOptions);
+<em>72: </em><font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p><p>All those variables (<code>vendor</code>, ...) have been defined earlier:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em> 7: </em>    const char* const translatorName = <font color="red">&quot;MS3D_Export&quot;</font>;
+<em> 8: </em>    const char* const pixmapName = <font color="red">&quot;none&quot;</font>;
+<em> 9: </em>    const char* const optionsScript = <font color="red">&quot;MS3D_opts&quot;</font>;
+<em>10: </em>    const char* const defaultOptions = &quot;&quot;;
+<em>11: </em>    const char* const extension = <font color="red">&quot;ms3d&quot;</font>;
+<em>12: </em>    const char* const vendor = <font color="red">&quot;OpenSource&quot;</font>;
+<em>13: </em>    const char* const version = <font color="red">&quot;0.1&quot;</font>;
+<em>14: </em>    const char* const requiredApiVersion = <font color="red">&quot;Any&quot;</font>;
+</pre>
+</td></tr>
+</tbody></table></p><p>And now finally the <code>uninitializePlugin</code>-function:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>74: </em>MStatus uninitializePlugin(MObject obj)
+<em>75: </em><font color="red"><strong>{</strong></font>
+<em>76: </em>    MFnPlugin plugin(obj);
+<em>77: </em>    <strong>return</strong> plugin.deregisterFileTranslator(MS3DTranslation::translatorName);
+<em>78: </em><font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p></div>
+<!-- Executable -->
+<a name="Executable"></a>
+<div class="skribesubsectiontitle"><table width="100%"><tr><td bgcolor="#ffffff"><h3><font color="#8381de">5.2.3 Executable</font>
+</h3></td></tr></table>
+</div><div class="subsection">
+<p>The code for executables is even simpler: One just needs to provide the
+   classical <code>main</code>-function, and call <code>exportScene</code> of the
+   <code>executable.hpp</code>-header (<code>ms3dExecutable</code>):</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>10: </em>int
+<em>11: </em>main(int argc, char** argv)
+<em>12: </em><font color="red"><strong>{</strong></font>
+<em>13: </em>    <strong>try</strong>
+<em>14: </em>    <font color="red"><strong>{</strong></font>
+<em>15: </em>        <strong>if</strong> (argc != 3)
+<em>16: </em>        <font color="red"><strong>{</strong></font>
+<em>17: </em>            printUsage(argv[0]);
+<em>18: </em>            <strong>return</strong> -1;
+<em>19: </em>        <font color="red"><strong>}</strong></font>
+<em>20: </em>
+<em>21: </em>        MS3DTranslation::MS3DExporter exporter;
+<em>22: </em>        
+<em>23: </em>        GPTranslation::exportScene(argv[0],
+<em>24: </em>                                   exporter,
+<em>25: </em>                                   argv[1],
+<em>26: </em>                                   argv[2]);
+<em>27: </em>        <strong>return</strong> 0;
+<em>28: </em>    <font color="red"><strong>}</strong></font>
+<em>29: </em>    <strong>catch</strong> (...)
+<em>30: </em>    <font color="red"><strong>{</strong></font>
+<em>31: </em>        <strong>return</strong> -1;
+<em>32: </em>    <font color="red"><strong>}</strong></font>
+<em>33: </em><font color="red"><strong>}</strong></font>
+</pre>
+</td></tr>
+</tbody></table></p><p>And here's the signature of the <code>exportScene</code>-function:</p><p><table cellspacing="0" class="frame" cellpadding="2" border="1" width="100%"><tbody>
+<tr><td><pre class="prog"><em>13: </em>    void exportScene(const std::string&amp; exporterName,
+<em>14: </em>                     GPExporter&amp; exporter,
+<em>15: </em>                     const std::string&amp; inFile,
+<em>16: </em>                     const std::string&amp; outFile);
+</pre>
+</td></tr>
+</tbody></table></p><p>This simplicity induces some restrictions: there's no way of
+   paramizing the exporter. If this is needed (which is usually the case), one
+   needs to copy some lines out of the <code>executable.cpp</code>-file, and
+   implement the <code>exportScene</code>-method on his own. Fortunately the code
+   is short (6 code-lines) and not difficult.</p><p>The only difficulty in creating executables lies in the linking. A
+   Maya-executable needs a bunch of libraries (in the correct order). If
+   you want to win some time, use <code>gpExport</code>'s Makefile.</p></div>
+</div><br>
+</div></td>
+</tr></table><div class="skribe-ending">
+<hr> 
+<p class="ending"><font size="-1">
+This <span class="sc">Html</span> page has been produced by 
+<a href="http://www.inria.fr/mimosa/fp/Skribe" class="http">Skribe</a>.
+<br/>
+Last update <em>Sun Sep  5 10:44:35 2004</em>.</font></p></div>
+</body>
+</html>
