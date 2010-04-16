@@ -53,7 +53,7 @@ namespace MS3DTranslation
 	void writeVertices(const Mesh& meshToWrite,
 			   const std::map<std::string, uint32> nameIndexMap);
 	void writeVertices(const Scene& sceneToWrite);
-	unsigned int writeTriangles(const Mesh& meshToWrite, unsigned int indexOffset, GPTranslation::byte groupIndex);
+	unsigned int writeTriangles(const Mesh& meshToWrite, unsigned int indexOffset, byte groupIndex);
 	void writeTriangles(const Scene& sceneToWrite);
 	void writeGroups(const Scene& sceneToWrite);
 	void writeMaterials(const Scene& sceneToWrite);
