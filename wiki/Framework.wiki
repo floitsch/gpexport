@@ -17,7 +17,7 @@ In addition to the shown classes, gpExport provides two additional classes:
 
 Both of them are utility-classes for implementing the abstract WriteScene-method.
 
-[http://gpexport.googlecode.com/svn-history/r11/wiki/converter_fileWriter.png]
+[http://gpexport.googlecode.com/svn/wiki/converter_fileWriter.png]
 
 ==Extending gpExport==
 This section essentially describes, how to use gpExport to easily implement a standard exporter. I'll take MS3D (MilkShake3D) as example. As this is really not a MS3D-tutorial, I won't go into details for the writing-part though.
