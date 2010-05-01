@@ -5,7 +5,7 @@
 The exporter (gpExport) itself isn't enormous (about 3400 lines), but the code is still much easier to read, if one knows the conventions, and the used coding-style.
 
 ==Naming-conventions== 
-Classes, types and variables follow the Java-conventions. Classes and types start with a capital character, and variables start with lower case. Both use CamelCase for compound words.
+Classes, types and variables follow the Java-conventions. Classes and types start with a capital character, and variables start with lower case. Both use !CamelCase for compound words.
 
 Examples:
 {{{
