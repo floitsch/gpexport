@@ -1,4 +1,0 @@
-#summary One-sentence summary of this page.
-
-= Introduction =
-pExport is a simple Maya exporter. gpExport’s goal is to provide a comprehensive base for other exporters. In other words: This is the exporter I would have liked to have when I started writing my first Maya exporter.
