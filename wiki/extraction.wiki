@@ -1,4 +1,5 @@
 #summary Describes the extraction process of gpExport.
+#labels Featured,Phase-Implementation
 
 = Extraction =
 
