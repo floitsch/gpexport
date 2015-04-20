@@ -1,0 +1,1 @@
+gpExport is a simple Maya exporter. Its goal goal is to provide a comprehensive base for other exporters. As part of this effort gpExport comes with extensive documentation. Have a look at the Wiki for useful information on writing Maya exporters.
