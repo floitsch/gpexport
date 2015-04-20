@@ -11,7 +11,7 @@ never really used the MS3D-exporter myself (I just ran "irrlicht"[1]
 over it, to verify, if the exporter works correctly. But that's it).
 
 The exporter itself is not complete, but is nevertheless quite usable
-for most projects. Its code is now hosted in a public repository[3]. So
+for most projects. Its code is now hosted in a public repository[2]. So
 feel free to contribute and improve the exporter.
 
 It is licensed under the (fairly permissive) MIT license (see the
@@ -24,7 +24,6 @@ It could also be built on other platforms, but I didn't try it.
 // modified by yaoyansi
 
 [1] http://irrlicht.sourceforge.net/
-[2] maya@florian.loitsch.com
-[3] https://github.com/floitsch/gpexport
+[2] https://github.com/floitsch/gpexport
 
 last changed: 2010 04 16
