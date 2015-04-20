@@ -17,7 +17,7 @@ feel free to contribute and improve the exporter.
 It is licensed under the (fairly permissive) MIT license (see the
 LICENSE file).
 
-For now, gpexport is maintained by yaoyansi, and provids MSVC2005 build scripts only.
+For now, gpexport is maintained by yaoyansi, and provides MSVC2005 build scripts only.
 It could also be built on other platforms, but I didn't try it.
 
 // florian loitsch
